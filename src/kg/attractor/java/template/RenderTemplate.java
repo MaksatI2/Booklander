@@ -37,4 +37,11 @@ public class RenderTemplate {
             exchange.sendResponseHeaders(500, -1);
         }
     }
+
+    public static void sendErrorResponse(HttpExchange exchange, int statusCode, String message) throws IOException {
+        exchange.sendResponseHeaders(statusCode, message.length());
+        try (OutputStream os = exchange.getResponseBody()) {
+            os.write(message.getBytes());
+        }
+    }
 }
