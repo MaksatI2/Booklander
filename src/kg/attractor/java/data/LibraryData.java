@@ -17,7 +17,7 @@ public class LibraryData {
     private List<Book> books;
     private List<Employee> employees;
 
-    private LibraryData() {
+    public LibraryData() {
         loadData();
     }
 
