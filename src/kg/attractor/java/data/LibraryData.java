@@ -19,6 +19,13 @@ public class LibraryData {
 
     public LibraryData() {
         loadData();
+        try {
+            Gson gson = new Gson();
+            Type employeeListType = new TypeToken<List<Employee>>(){}.getType();
+            employees = gson.fromJson(new FileReader(EMPLOYEES_FILE_PATH), employeeListType);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static LibraryData getInstance() {
@@ -58,12 +65,6 @@ public class LibraryData {
         return employees.stream().filter(e -> e.getId().equals(id)).map(Employee::getName).findFirst().orElse("Неизвестно");
     }
 
-    public Employee getEmployeeById(String id) {
-        return employees.stream()
-                .filter(e -> e.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
 
     public List<String> getBookTitlesByEmployee(String employeeId) {
         return employees.stream()
@@ -89,6 +90,14 @@ public class LibraryData {
                 .orElse("Неизвестная книга");
     }
 
+    public Employee getEmployeeById(String id) {
+        for (Employee employee : employees) {
+            if (employee.getId().equals(id)) {
+                return employee;
+            }
+        }
+        return null;
+    }
 }
 
 
