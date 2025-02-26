@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import static kg.attractor.java.template.RenderTemplate.renderTemplate;
+import static kg.attractor.java.template.RenderTemplate.sendErrorResponse;
 
 public class BooksRequestHandler implements HttpHandler {
     private final LibraryData dataService;
@@ -31,6 +32,7 @@ public class BooksRequestHandler implements HttpHandler {
             renderTemplate(exchange, "books.ftlh", data);
         } catch (Exception e) {
             e.printStackTrace();
+            sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "Error loading books.");
         }
     }
 }
