@@ -37,9 +37,12 @@
     </style>
 </head>
 <body>
-<ul>
-    <li><a href="/books">Book List</a></li>
-</ul>
+<header>
+    <ul>
+        <li><a href="/books">Список книг</a></li>
+        <li><a href="/employees">Сотрудники</a></li>
+    </ul>
+<header>
 <h1 class="employee-container-header">Список сотрудников</h1>
 <div class="employee-container">
     <#list employees as employee>
@@ -73,7 +76,7 @@
                 </ul>
             </#if>
         </div>
-                <a href="/employee/01" class="employee-link">Инфо о сотруднике</a>
+                <a href="/employee/${employee.id}" class="employee-link">Инфо о сотруднике</a>
             </div>
         </div>
     </#list>

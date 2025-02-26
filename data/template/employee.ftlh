@@ -28,6 +28,12 @@
     </style>
 </head>
 <body>
+<header>
+    <ul>
+        <li><a href="/books">Список книг</a></li>
+        <li><a href="/employees">Сотрудники</a></li>
+    </ul>
+<header>
 <div class="book-card">
     <h1>${employee.name}</h1>
 

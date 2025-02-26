@@ -19,9 +19,10 @@
 </head>
 <body>
 <header>
-    <ul>
-        <li><a href="/employees">Employees</a></li>
-    </ul>
+   <ul>
+      <li><a href="/books">Список книг</a></li>
+      <li><a href="/employees">Сотрудники</a></li>
+   </ul>
 </header>
 <div class="book-container">
 <h1>Список книг</h1>
@@ -34,7 +35,7 @@
                 <div class="book-title">${book.title}</div>
                 <div class="book-author">${book.author}</div>
                 <div class="book-status">${(book.issued)?string("Выдана", "Доступна")}</div>
-                <a href="/book/1" class="book-link">Подробнее</a>
+                <a href="/book/${book.id}" class="book-link">Подробнее</a>
             </div>
         </div>
     </#list>

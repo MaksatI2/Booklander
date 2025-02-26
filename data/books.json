@@ -1,9 +1,9 @@
 [
   { "id": "1", "title": "33 стратегии войны","author": "Роберт Грин", "borrowerId": "01", "issued": true,"image": "/images/33-war.jpg" },
-  { "id": "2", "title": "Белый параход","author": "Чынгыз Айтматов", "borrowerId": "03", "issued": true ,"image": "images/white_parahod.jpg"},
-  { "id": "3", "title": "Накопительный эффект","author": "Даррен Харди", "borrowerId": "03", "issued": true ,"image": "images/nakopitelnyi_effect.jpg"},
-  { "id": "4", "title": "Евгений Онегин","author": "Александр Пушкин", "issued": false ,"image": "images/Evgenyi_Onegin.jpg"},
-  { "id": "5", "title": "Война и мир","author": "Лев Толстой", "issued": false ,"image": "images/war_paradise.jpg"},
-  { "id": "6", "title": "Метро","author": "Дмитрий Глуховский", "borrowerId": "07", "issued": true,"image": "images/metro.jpg" },
-  { "id": "7", "title": "Дюна","author": "Фрэнк Герберт", "borrowerId": "04", "issued": true ,"image": "images/Dune.jpg"}
+  { "id": "2", "title": "Белый параход","author": "Чынгыз Айтматов", "borrowerId": "03", "issued": true ,"image": "/images/white_parahod.jpg"},
+  { "id": "3", "title": "Накопительный эффект","author": "Даррен Харди", "borrowerId": "03", "issued": true ,"image": "/images/nakopitelnyi_effect.jpg"},
+  { "id": "4", "title": "Евгений Онегин","author": "Александр Пушкин", "issued": false ,"image": "/images/Evgenyi_Onegin.jpg"},
+  { "id": "5", "title": "Война и мир","author": "Лев Толстой", "issued": false ,"image": "/images/war_paradise.jpg"},
+  { "id": "6", "title": "Метро","author": "Дмитрий Глуховский", "borrowerId": "07", "issued": true,"image": "/images/metro.jpg" },
+  { "id": "7", "title": "Дюна","author": "Фрэнк Герберт", "borrowerId": "04", "issued": true ,"image": "/images/Dune.jpg"}
 ]

@@ -33,9 +33,15 @@
     </style>
 </head>
 <body>
+<header>
+    <ul>
+        <li><a href="/books">Список книг</a></li>
+        <li><a href="/employees">Сотрудники</a></li>
+    </ul>
+</header>
 <div class="book-card">
     <div class="book-image">
-         <img src="${book.image}" alt="Обложка ${book.title}">
+         <img src=${book.image} alt="Обложка ${book.title}">
     </div>
     <div class="book-title">${book.title}</div>
     <div class="book-author">${book.author}</div>
