@@ -1,9 +1,67 @@
 [
-  {"id": "01", "name": "Аиша", "borrowedBooks": ["1"],"pastBooks": ["5"] },
-  {"id": "02", "name": "Эржан", "borrowedBooks": [], "pastBooks": [] },
-  {"id": "03", "name": "Куба", "borrowedBooks": ["2", "3"], "pastBooks": [] },
-  {"id": "04", "name": "Максат", "borrowedBooks": ["7"], "pastBooks": ["1"] },
-  {"id": "05", "name": "Эмир", "borrowedBooks": [], "pastBooks": [] },
-  {"id": "06", "name": "Адис", "borrowedBooks": [], "pastBooks": ["4", "7"] },
-  {"id": "07", "name": "Элдана", "borrowedBooks": ["6"], "pastBooks": [] }
+  {
+    "id": "01",
+    "name": "Аиша",
+    "password": "qwe",
+    "borrowedBooks": [
+      "1"
+    ],
+    "pastBooks": [
+      "5"
+    ]
+  },
+  {
+    "id": "02",
+    "name": "Эржан",
+    "password": "022",
+    "borrowedBooks": [],
+    "pastBooks": []
+  },
+  {
+    "id": "03",
+    "name": "Куба",
+    "password": "033",
+    "borrowedBooks": [
+      "2",
+      "3"
+    ],
+    "pastBooks": []
+  },
+  {
+    "id": "04",
+    "name": "Максат",
+    "password": "044",
+    "borrowedBooks": [
+      "7"
+    ],
+    "pastBooks": [
+      "1"
+    ]
+  },
+  {
+    "id": "05",
+    "name": "Эмир",
+    "password": "055",
+    "borrowedBooks": [],
+    "pastBooks": []
+  },
+  {
+    "id": "06",
+    "name": "Адис",
+    "password": "066",
+    "borrowedBooks": [],
+    "pastBooks": [
+      "4",
+      "7"
+    ]
+  },
+  {
+    "id": "07",
+    "name": "Элдана",
+    "password": "077",
+    "borrowedBooks": [
+      "6"
+    ],
+    "pastBooks": []
+  }
 ]
