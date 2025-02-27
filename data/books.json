@@ -1,9 +1,63 @@
 [
-  { "id": "1", "title": "33 стратегии войны","author": "Роберт Грин", "borrowerId": "01", "issued": true,"image": "/images/33-war.jpg" },
-  { "id": "2", "title": "Белый параход","author": "Чынгыз Айтматов", "borrowerId": "03", "issued": true ,"image": "/images/white_parahod.jpg"},
-  { "id": "3", "title": "Накопительный эффект","author": "Даррен Харди", "borrowerId": "03", "issued": true ,"image": "/images/nakopitelnyi_effect.jpg"},
-  { "id": "4", "title": "Евгений Онегин","author": "Александр Пушкин", "issued": false ,"image": "/images/Evgenyi_Onegin.jpg"},
-  { "id": "5", "title": "Война и мир","author": "Лев Толстой", "issued": false ,"image": "/images/war_paradise.jpg"},
-  { "id": "6", "title": "Метро","author": "Дмитрий Глуховский", "borrowerId": "07", "issued": true,"image": "/images/metro.jpg" },
-  { "id": "7", "title": "Дюна","author": "Фрэнк Герберт", "borrowerId": "04", "issued": true ,"image": "/images/Dune.jpg"}
+  {
+    "id": "1",
+    "title": "33 стратегии войны",
+    "author": "Роберт Грин",
+    "borrowerId": "1",
+    "issued": true,
+    "image": "/images/33-war.jpg",
+    "description": "Книга о стратегиях ведения войны, вдохновленная историческими примерами."
+  },
+  {
+    "id": "2",
+    "title": "Белый параход",
+    "author": "Чынгыз Айтматов",
+    "borrowerId": "3",
+    "issued": true,
+    "image": "/images/white_parahod.jpg",
+    "description": "Роман о философии жизни и смерти, где переплетаются трагические судьбы людей и исторические события."
+  },
+  {
+    "id": "3",
+    "title": "Накопительный эффект",
+    "author": "Даррен Харди",
+    "borrowerId": "3",
+    "issued": true,
+    "image": "/images/nakopitelnyi_effect.jpg",
+    "description": "Книга о том, как маленькие, но последовательные действия могут привести к большим и значимым результатам."
+  },
+  {
+    "id": "4",
+    "title": "Евгений Онегин",
+    "author": "Александр Пушкин",
+    "issued": false,
+    "image": "/images/Evgenyi_Onegin.jpg",
+    "description": "Классическое произведение о жизни русского дворянства, любви и разочарованиях, через призму жизни главного героя."
+  },
+  {
+    "id": "5",
+    "title": "Война и мир",
+    "author": "Лев Толстой",
+    "issued": false,
+    "image": "/images/war_paradise.jpg",
+    "description": "Эпопея, рассказывающая о жизни нескольких семей на фоне Наполеоновских войн, их переживаниях, судьбах и изменениях в обществе."
+  },
+  {
+    "id": "6",
+    "title": "Метро",
+    "author": "Дмитрий Глуховский",
+    "borrowerId": "7",
+    "issued": true,
+    "image": "/images/metro.jpg",
+    "description": "Мрачная и реалистичная картина постапокалиптической Москвы, где выживание людей зависит от их способности адаптироваться и бороться."
+  },
+  {
+    "id": "7",
+    "title": "Дюна",
+    "author": "Фрэнк Герберт",
+    "borrowerId": "4",
+    "issued": true,
+    "image": "/images/Dune.jpg",
+    "description": "Сага о власти, верности и экологии на планете Арракис, где главное богатство — это специи, которые дают невероятные силы."
+  }
 ]
