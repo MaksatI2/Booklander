@@ -119,6 +119,12 @@
         .book-link:hover {
             text-decoration: underline;
         }
+
+        .book-description {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -143,6 +149,7 @@
                 <div class="book-title">${book.title}</div>
                 <div class="book-author">${book.author}</div>
                 <div class="book-status">${(book.issued)?string("Выдана", "Доступна")}</div>
+                 <div class="book-description">${book.description}</div>
                 <a href="/book/${book.id}" class="book-link">Подробнее</a>
             </div>
         </div>
