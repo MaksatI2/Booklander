@@ -9,6 +9,7 @@ import kg.attractor.java.template.RenderTemplate;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static kg.attractor.java.template.RenderTemplate.sendErrorResponse;
@@ -42,8 +43,19 @@ public class EmployeeRequestHandler implements HttpHandler {
                 return;
             }
 
+            List<Employee> employees = libraryData.getEmployees();
+
             Map<String, Object> data = new HashMap<>();
             data.put("employee", employee);
+
+            Map<String, List<String>> borrowedBooksMap = new HashMap<>();
+            Map<String, List<String>> pastBooksMap = new HashMap<>();
+            for (Employee emp : employees) {
+                borrowedBooksMap.put(emp.getId(), libraryData.getBookTitlesByEmployee(emp.getId()));
+                pastBooksMap.put(emp.getId(), libraryData.getPastBookTitlesByEmployee(emp.getId()));
+            }
+            data.put("borrowedBooksMap", borrowedBooksMap);
+            data.put("pastBooksMap", pastBooksMap);
 
             RenderTemplate.renderTemplate(exchange, "employee.ftlh", data);
         } catch (Exception e) {
@@ -51,5 +63,6 @@ public class EmployeeRequestHandler implements HttpHandler {
             sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "Error loading employee.");
         }
     }
+
 
 }
