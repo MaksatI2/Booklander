@@ -1,13 +1,18 @@
 package kg.attractor.java.data;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import kg.attractor.java.model.Book;
 import kg.attractor.java.model.Employee;
 
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryData {
@@ -16,6 +21,7 @@ public class LibraryData {
     private static LibraryData instance;
     private List<Book> books;
     private List<Employee> employees;
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public LibraryData() {
         loadData();
@@ -90,14 +96,55 @@ public class LibraryData {
                 .orElse("Неизвестная книга");
     }
 
-    public Employee getEmployeeById(String id) {
-        for (Employee employee : employees) {
-            if (employee.getId().equals(id)) {
-                return employee;
-            }
-        }
-        return null;
+    public boolean isUserExists(String email) {
+        return employees.stream().anyMatch(emp -> emp.getEmail().equals(email));
     }
+
+    public void addUser(String email, String name, String password) {
+        String newEmployeeId = generateNextEmployeeId();
+
+        employees.add(new Employee(
+                newEmployeeId,
+                name,
+                email,
+                password,
+                new ArrayList<>(),
+                new ArrayList<>()
+        ));
+
+        saveEmployees();
+    }
+
+    private void saveEmployees() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(EMPLOYEES_FILE_PATH, StandardCharsets.UTF_8))) {
+            writer.write(gson.toJson(employees));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String generateNextEmployeeId() {
+        int maxId = employees.stream()
+                .map(e -> e.getId())
+                .mapToInt(Integer::parseInt)
+                .max()
+                .orElse(0);
+
+        return String.valueOf(maxId + 1);
+    }
+
+    public Employee getEmployeeByEmail(String email) {
+        return employees.stream()
+                .filter(e -> e.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public boolean login(String email, String password) {
+        Employee employee = getEmployeeByEmail(email);
+        return employee != null && employee.getPassword().trim().equals(password.trim());
+    }
+
 }
 
 
