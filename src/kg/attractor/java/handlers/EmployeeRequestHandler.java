@@ -3,6 +3,7 @@ package kg.attractor.java.handlers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import kg.attractor.java.data.LibraryData;
+import kg.attractor.java.model.Book;
 import kg.attractor.java.model.Employee;
 import kg.attractor.java.server.ResponseCodes;
 import kg.attractor.java.template.RenderTemplate;
@@ -43,19 +44,14 @@ public class EmployeeRequestHandler implements HttpHandler {
                 return;
             }
 
-            List<Employee> employees = libraryData.getEmployees();
-
             Map<String, Object> data = new HashMap<>();
             data.put("employee", employee);
 
-            Map<String, List<String>> borrowedBooksMap = new HashMap<>();
-            Map<String, List<String>> pastBooksMap = new HashMap<>();
-            for (Employee emp : employees) {
-                borrowedBooksMap.put(emp.getId(), libraryData.getBookTitlesByEmployee(emp.getId()));
-                pastBooksMap.put(emp.getId(), libraryData.getPastBookTitlesByEmployee(emp.getId()));
-            }
-            data.put("borrowedBooksMap", borrowedBooksMap);
-            data.put("pastBooksMap", pastBooksMap);
+            List<Book> borrowedBooks = libraryData.getBooksByEmployee(employeeId);
+            List<Book> pastBooks = libraryData.getPastBooksByEmployee(employeeId);
+
+            data.put("borrowedBooks", borrowedBooks);
+            data.put("pastBooks", pastBooks);
 
             RenderTemplate.renderTemplate(exchange, "employee.ftlh", data);
         } catch (Exception e) {
