@@ -28,6 +28,7 @@ public class LibraryServer {
         server.createContext("/employees", new EmployeesRequestHandler(dataService));
         server.createContext("/employee", new EmployeeRequestHandler(dataService));
         server.createContext("/login", new LoginRequestHandler(dataService));
+        server.createContext("/register", new RegisterHandler());
 
         server.createContext("/", exchange -> {
             String requestPath = exchange.getRequestURI().getPath();
