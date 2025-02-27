@@ -5,13 +5,15 @@ import java.util.List;
 public class Employee {
     private String id;
     private String name;
+    private String email;
     private String password;
     private List<String> borrowedBooks;
     private List<String> pastBooks;
 
-    public Employee(String id, String name, String password, List<String> borrowedBooks, List<String> pastBooks) {
+    public Employee(String id, String name,String email, String password, List<String> borrowedBooks, List<String> pastBooks) {
         this.id = id;
         this.name = name;
+        this.email = email;
         this.password = password;
         this.borrowedBooks = borrowedBooks;
         this.pastBooks = pastBooks;
@@ -23,6 +25,10 @@ public class Employee {
 
     public String getName() {
         return name;
+    }
+
+    public  String  getEmail() {
+        return email;
     }
 
     public String getPassword() {
