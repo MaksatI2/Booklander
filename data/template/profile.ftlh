@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <title>Профиль пользователя</title>
     <style>
-        /* Общие стили */
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            background: white;
             margin: 0;
             height: 100vh;
             display: flex;
@@ -15,7 +14,6 @@
             align-items: center;
         }
 
-        /* Контейнер для профиля */
         .profile-container {
             background: rgba(255, 255, 255, 0.9);
             padding: 40px 50px;
@@ -26,7 +24,6 @@
             text-align: center;
         }
 
-        /* Заголовок */
         h1 {
             color: #333;
             font-size: 30px;
@@ -42,7 +39,6 @@
             margin-bottom: 10px;
         }
 
-        /* Параграфы и данные */
         p {
             font-size: 16px;
             margin: 10px 0;
@@ -52,7 +48,6 @@
             font-weight: bold;
         }
 
-        /* Список книг */
         ul {
             list-style-type: none;
             padding-left: 0;
@@ -68,7 +63,6 @@
             border-radius: 5px;
         }
 
-        /* Ссылки */
         .back-link {
             display: inline-block;
             padding: 12px 20px;
@@ -85,7 +79,6 @@
             background-color: #1e60d2;
         }
 
-        /* Навигационное меню */
         .navbar {
             background: #333;
             padding: 15px;
@@ -135,6 +128,7 @@
     <h1>Профиль пользователя</h1>
     <p><strong>ID:</strong> ${employee.id}</p>
     <p><strong>Имя:</strong> ${employee.name}</p>
+    <p><strong>Email:</strong> ${employee.email}</p>
 
     <h2>Текущие книги:</h2>
     <ul>

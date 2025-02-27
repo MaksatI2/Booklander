@@ -4,10 +4,9 @@
   <meta charset="UTF-8">
   <title>Вход в систему</title>
   <style>
-    /* Общие стили */
     body {
       font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      background: white;
       margin: 0;
       height: 100vh;
       display: flex;
@@ -15,7 +14,6 @@
       align-items: center;
     }
 
-    /* Контейнер для формы */
     .form-container {
       background: rgba(255, 255, 255, 0.9);
       padding: 40px 50px;
@@ -26,7 +24,6 @@
       text-align: center;
     }
 
-    /* Заголовок формы */
     h1 {
       color: #333;
       font-size: 30px;
@@ -35,7 +32,6 @@
       letter-spacing: 1px;
     }
 
-    /* Стиль для полей ввода */
     input[type="text"], input[type="password"] {
       width: 100%;
       padding: 12px 15px;
@@ -47,7 +43,6 @@
       transition: all 0.3s ease;
     }
 
-    /* Стиль для кнопки */
     input[type="submit"] {
       width: 100%;
       padding: 12px;
@@ -64,14 +59,12 @@
       background-color: #1e60d2;
     }
 
-    /* Стиль для ошибки */
     .error-message {
       color: #e74c3c;
       font-size: 14px;
       margin-top: 10px;
     }
 
-    /* Иконки в полях ввода */
     .input-container {
       position: relative;
     }
@@ -87,6 +80,17 @@
     input[type="text"], input[type="password"] {
       padding-left: 35px;
     }
+
+    a {
+                display: block;
+                margin-top: 20px;
+                color: #2575fc;
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
   </style>
 </head>
 <body>
@@ -95,21 +99,19 @@
   <form method="POST" action="/login">
     <div class="input-container">
       <i class="fa fa-user"></i>
-      <input type="text" name="id" placeholder="Идентификатор" required><br>
+      <input type="text" name="email" placeholder="Идентификатор" required><br>
     </div>
     <div class="input-container">
       <i class="fa fa-lock"></i>
       <input type="password" name="password" placeholder="Пароль" required><br>
     </div>
     <input type="submit" value="Войти">
+        <a href="/books">На главную</a>
   </form>
 
   <#if errorMessage??>
   <p class="error-message">${errorMessage}</p>
   </#if>
 </div>
-
-<!-- Подключение иконок Font Awesome -->
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>
 </html>
