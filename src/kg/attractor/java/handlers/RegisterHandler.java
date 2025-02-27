@@ -22,9 +22,18 @@ public class RegisterHandler implements HttpHandler {
     private void handleRegistration(HttpExchange exchange) throws IOException {
         Map<String, String> formData = FormParser.parse(exchange);
         String email = formData.get("email");
-        String name = formData.get("name");
-        String password = formData.get("password");
+        String name = formData.get("name").trim();
+        String password = formData.get("password").trim();
 
+
+        if (name.isEmpty()) {
+            RenderTemplate.renderTemplate(exchange, "register.ftlh", Map.of("message", "Имя не может состоять только из пробелов!"));
+            return;
+        }
+        if (password.length() < 4) {
+            RenderTemplate.renderTemplate(exchange, "register.ftlh", Map.of("message", "Пароль должен содержать минимум 4 символа!"));
+            return;
+        }
         if (LibraryData.getInstance().isUserExists(email)) {
             RenderTemplate.renderTemplate(exchange, "register.ftlh", Map.of("message", "Пользователь уже существует!"));
         } else {
