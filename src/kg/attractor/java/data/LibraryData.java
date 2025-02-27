@@ -71,7 +71,6 @@ public class LibraryData {
         return employees.stream().filter(e -> e.getId().equals(id)).map(Employee::getName).findFirst().orElse("Неизвестно");
     }
 
-
     public List<String> getBookTitlesByEmployee(String employeeId) {
         return employees.stream()
                 .filter(e -> e.getId().equals(employeeId))
@@ -143,6 +142,22 @@ public class LibraryData {
     public boolean login(String email, String password) {
         Employee employee = getEmployeeByEmail(email);
         return employee != null && employee.getPassword().trim().equals(password.trim());
+    }
+
+    public List<Book> getBooksByEmployee(String employeeId) {
+        return employees.stream()
+                .filter(e -> e.getId().equals(employeeId))
+                .flatMap(e -> e.getBorrowedBooks().stream())
+                .map(this::getBookById)
+                .toList();
+    }
+
+    public List<Book> getPastBooksByEmployee(String employeeId) {
+        return employees.stream()
+                .filter(e -> e.getId().equals(employeeId))
+                .flatMap(e -> e.getPastBooks().stream())
+                .map(this::getBookById)
+                .toList();
     }
 
 }
