@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <title>Список сотрудников</title>
     <style>
-        /* Общие стили */
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            background: white;
             margin: 0;
             padding: 0;
             display: flex;
@@ -16,20 +15,20 @@
             min-height: 100vh;
         }
 
-        /* Навигационное меню */
-        header {
+        .navbar {
             width: 100%;
             background: #333;
             padding: 15px;
             position: fixed;
             top: 0;
             left: 0;
+            margin-bottom: 100px;
             z-index: 10;
             display: flex;
             justify-content: center;
         }
 
-        header ul {
+        .navbar ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
@@ -37,33 +36,22 @@
             gap: 20px;
         }
 
-        header ul li {
+        .navbar ul li {
             display: inline;
         }
 
-        header ul li a {
+        .navbar ul li a {
             color: white;
             text-decoration: none;
             font-size: 16px;
             padding: 8px 12px;
         }
 
-        header ul li a:hover {
+        .navbar ul li a:hover {
             background: #555;
             border-radius: 5px;
         }
 
-        /* Заголовок страницы */
-        .employee-container-header {
-            font-size: 30px;
-            font-weight: bold;
-            text-align: center;
-            color: #333;
-            margin-top: 80px; /* Отступ сверху, чтобы не перекрывалось с меню */
-            margin-bottom: 40px;
-        }
-
-        /* Контейнер сотрудников */
         .employee-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -73,7 +61,6 @@
             padding: 20px;
         }
 
-        /* Карточка сотрудника */
         .employee-card {
             background: rgba(255, 255, 255, 0.9);
             padding: 20px;
@@ -84,7 +71,6 @@
             gap: 15px;
         }
 
-        /* Информация о сотруднике */
         .employee-info {
             flex-grow: 1;
         }
@@ -105,7 +91,10 @@
             color: #4CAF50;
         }
 
-        /* Ссылка на информацию о сотруднике */
+        .employee-container-header {
+            margin-top: 100px;
+        }
+
         .employee-link {
             display: inline-block;
             padding: 10px 20px;
@@ -125,51 +114,52 @@
 </head>
 <body>
 
-<header>
+<nav class="navbar">
     <ul>
-        <li><a href="/books">Список книг</a></li>
+        <li><a href="/register">Регистрация</a></li>
+        <li><a href="/login">Войти</a></li>
+        <li><a href="/books">Главная</a></li>
         <li><a href="/employees">Сотрудники</a></li>
     </ul>
-</header>
+</nav>
 
 <h1 class="employee-container-header">Список сотрудников</h1>
-
 <div class="employee-container">
     <#list employees as employee>
-        <div class="employee-card">
-            <div class="employee-info">
-                <div class="employee-name">${employee.name}</div>
-                <div class="employee-id">ID: ${employee.id}</div>
-                <h3>Нынешние книги:</h3>
-                <div class="employee-books">
-                    <#assign books = borrowedBooksMap[employee.id]![]>
-                    <#if books?size == 0>
-                        Нет взятых книг
-                    <#else>
-                        <ul>
-                            <#list books as bookTitle>
-                                <li>${bookTitle}</li>
-                            </#list>
-                        </ul>
-                    </#if>
-                </div>
-                <h3>Прошлые книги:</h3>
-                <div class="employee-books">
-                    <#assign books = pastBooksMap[employee.id]![]>
-                    <#if books?size == 0>
-                        Нет прошлых книг
-                    <#else>
-                        <ul>
-                            <#list books as bookTitle>
-                                <li>${bookTitle}</li>
-                            </#list>
-                        </ul>
-                    </#if>
-                </div>
-                <a href="/employee/${employee.id}" class="employee-link">Инфо о сотруднике</a>
-            </div>
+    <div class="employee-card">
+        <div class="employee-info">
+            <div class="employee-name">${employee.name}</div>
+            <div class="employee-id">ID: ${employee.id}</div>
+            <h3>Нынешние книги:</h3>
+            <div class="employee-books">
+                <#assign books = borrowedBooksMap[employee.id]![]>
+                <#if books?size == 0>
+                Нет взятых книг
+                <#else>
+                <ul>
+                    <#list books as bookTitle>
+                    <li>${bookTitle}</li>
+                </#list>
+                </ul>
+            </#if>
         </div>
-    </#list>
+        <h3>Прошлые книги:</h3>
+        <div class="employee-books">
+            <#assign books = pastBooksMap[employee.id]![]>
+            <#if books?size == 0>
+            Нет прошлых книг
+            <#else>
+            <ul>
+                <#list books as bookTitle>
+                <li>${bookTitle}</li>
+            </#list>
+            </ul>
+        </#if>
+    </div>
+    <a href="/employee/${employee.id}" class="employee-link">Инфо о сотруднике</a>
+</div>
+</div>
+</#list>
 </div>
 
 </body>

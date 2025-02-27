@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <title>Список книг</title>
     <style>
-        /* Общие стили */
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            background: white;
             margin: 0;
             padding: 0;
             display: flex;
@@ -15,8 +14,6 @@
             align-items: center;
             min-height: 100vh;
         }
-
-        /* Навигационное меню */
         .navbar {
             width: 100%;
             background: #333;
@@ -53,7 +50,6 @@
             border-radius: 5px;
         }
 
-        /* Заголовок страницы */
         h1 {
             font-size: 30px;
             font-weight: bold;
@@ -61,17 +57,15 @@
             margin-bottom: 20px;
         }
 
-        /* Контейнер с книгами */
         .book-container {
             display: flex;
             flex-direction: column;
             gap: 15px;
             max-width: 1000px;
-            margin: 120px auto 0; /* Отступ сверху для корректного отображения */
+            margin: 120px auto 0;
             padding-top: 20px;
         }
 
-        /* Карточка книги */
         .book-card {
             background: rgba(255, 255, 255, 0.9);
             padding: 20px;

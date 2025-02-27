@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <title>${book.title}</title>
     <style>
-        /* Общие стили */
         body {
             font-family: Arial, sans-serif;
-            background: #f9f9f9;
+            background: white;
             padding: 0;
             margin: 0;
             display: flex;
@@ -16,8 +15,7 @@
             min-height: 100vh;
         }
 
-        /* Навигационное меню */
-        header {
+        .navbar {
             width: 100%;
             background: #333;
             padding: 15px;
@@ -29,38 +27,37 @@
             justify-content: center;
         }
 
-        header ul {
+        .navbar ul {
             list-style-type: none;
-            margin: 0;
+             margin: 0;
             padding: 0;
             display: flex;
             gap: 20px;
         }
 
-        header ul li {
+        .navbar ul li {
             display: inline;
         }
 
-        header ul li a {
+        .navbar ul li a {
             color: white;
             text-decoration: none;
             font-size: 16px;
             padding: 8px 12px;
         }
 
-        header ul li a:hover {
+         .navbar ul li a:hover {
             background: #555;
             border-radius: 5px;
         }
 
-        /* Карточка книги */
         .book-card {
             background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             max-width: 500px;
-            margin-top: 100px; /* Отступ сверху для корректного отображения */
+            margin-top: 100px;
             text-align: center;
         }
 
@@ -119,12 +116,13 @@
 </head>
 <body>
 
-<header>
+<nav class="navbar">
     <ul>
-        <li><a href="/books">Список книг</a></li>
+        <li><a href="/login">Войти</a></li>
+        <li><a href="/books">Главная</a></li>
         <li><a href="/employees">Сотрудники</a></li>
     </ul>
-</header>
+</nav>
 
 <div class="book-card">
     <div class="book-image">
