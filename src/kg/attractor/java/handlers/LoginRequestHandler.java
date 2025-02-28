@@ -32,7 +32,7 @@ public class LoginRequestHandler implements HttpHandler {
             if (dataService.login(email, password)) {
                 String redirectUrl = "/profile?email=" + email;
                 exchange.getResponseHeaders().set("Location", redirectUrl);
-                exchange.sendResponseHeaders(ResponseCodes.REDIRECT.getCode(), 0);
+                exchange.sendResponseHeaders(ResponseCodes.REDIRECT.getCode(), -1);
             } else {
                 Map<String, Object> data = new HashMap<>();
                 data.put("errorMessage", "Ошибка входа: неверный email или пароль.");
@@ -40,4 +40,5 @@ public class LoginRequestHandler implements HttpHandler {
             }
         }
     }
+
 }
