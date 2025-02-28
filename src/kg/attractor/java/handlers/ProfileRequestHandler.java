@@ -4,7 +4,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import kg.attractor.java.data.LibraryData;
 import kg.attractor.java.model.Employee;
-import kg.attractor.java.server.ResponseCodes;
 import kg.attractor.java.template.RenderTemplate;
 
 import java.io.IOException;
@@ -21,34 +20,14 @@ public class ProfileRequestHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        String query = exchange.getRequestURI().getQuery();
-        String email = null;
+        Employee employee = createFakeUser();
 
-        if (query != null && query.startsWith("email=")) {
-            email = query.split("=")[1];
-        }
+        Map<String, Object> data = new HashMap<>();
+        data.put("employee", employee);
+        data.put("borrowedBooks", getBookTitles(employee.getBorrowedBooks()));
+        data.put("pastBooks", getBookTitles(employee.getPastBooks()));
 
-        if (email != null) {
-            Employee employee = dataService.getEmployeeByEmail(email);
-
-            if (employee != null) {
-                Map<String, Object> data = new HashMap<>();
-                data.put("employee", employee);
-                data.put("borrowedBooks", getBookTitles(employee.getBorrowedBooks()));
-                data.put("pastBooks", getBookTitles(employee.getPastBooks()));
-
-                RenderTemplate.renderTemplate(exchange, "profile.ftlh", data);
-            } else {
-                sendErrorResponse(exchange, ResponseCodes.NOT_FOUND.getCode(), "User not found");
-            }
-        } else {
-            Map<String, Object> data = new HashMap<>();
-            data.put("employee", createFakeUser());
-            data.put("borrowedBooks", getBookTitles(List.of()));
-            data.put("pastBooks", getBookTitles(List.of()));
-
-            RenderTemplate.renderTemplate(exchange, "profile.ftlh", data);
-        }
+        RenderTemplate.renderTemplate(exchange, "profile.ftlh", data);
     }
 
     private List<String> getBookTitles(List<String> bookIds) {
@@ -61,11 +40,5 @@ public class ProfileRequestHandler implements HttpHandler {
 
     private Employee createFakeUser() {
         return new Employee("999", "Некий пользователь", "fake@email.com", "1234", List.of(), List.of());
-    }
-
-    private void sendErrorResponse(HttpExchange exchange, int code, String message) throws IOException {
-        exchange.sendResponseHeaders(code, message.getBytes().length);
-        exchange.getResponseBody().write(message.getBytes());
-        exchange.close();
     }
 }
