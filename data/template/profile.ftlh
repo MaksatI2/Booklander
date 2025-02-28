@@ -117,8 +117,6 @@
 
 <nav class="navbar">
     <ul>
-        <li><a href="/register">Регистрация</a></li>
-        <li><a href="/profile">Профиль</a></li>
         <li><a href="/books">Главная</a></li>
         <li><a href="/employees">Сотрудники</a></li>
     </ul>
