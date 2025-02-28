@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class ProfileRequestHandler implements HttpHandler {
     private final LibraryData dataService;
 
@@ -43,7 +42,12 @@ public class ProfileRequestHandler implements HttpHandler {
                 sendErrorResponse(exchange, ResponseCodes.NOT_FOUND.getCode(), "User not found");
             }
         } else {
-            sendErrorResponse(exchange, ResponseCodes.NOT_FOUND.getCode(), "Email is required for profile");
+            Map<String, Object> data = new HashMap<>();
+            data.put("employee", createFakeUser());
+            data.put("borrowedBooks", getBookTitles(List.of()));
+            data.put("pastBooks", getBookTitles(List.of()));
+
+            RenderTemplate.renderTemplate(exchange, "profile.ftlh", data);
         }
     }
 
@@ -55,6 +59,9 @@ public class ProfileRequestHandler implements HttpHandler {
                 .toList();
     }
 
+    private Employee createFakeUser() {
+        return new Employee("999", "Некий пользователь", "fake@email.com", "1234", List.of(), List.of());
+    }
 
     private void sendErrorResponse(HttpExchange exchange, int code, String message) throws IOException {
         exchange.sendResponseHeaders(code, message.getBytes().length);
@@ -62,4 +69,3 @@ public class ProfileRequestHandler implements HttpHandler {
         exchange.close();
     }
 }
-
