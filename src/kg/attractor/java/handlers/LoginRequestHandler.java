@@ -3,13 +3,12 @@ package kg.attractor.java.handlers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import kg.attractor.java.data.LibraryData;
-import kg.attractor.java.model.Employee;
+import kg.attractor.java.server.ResponseCodes;
 import kg.attractor.java.template.RenderTemplate;
 import kg.attractor.java.utils.FormParser;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class LoginRequestHandler implements HttpHandler {
@@ -31,14 +30,9 @@ public class LoginRequestHandler implements HttpHandler {
             String password = params.get("password");
 
             if (dataService.login(email, password)) {
-                Employee employee = dataService.getEmployeeByEmail(email);
-
-                Map<String, Object> data = new HashMap<>();
-                data.put("employee", employee);
-                data.put("borrowedBooks", getBookTitles(employee.getBorrowedBooks()));
-                data.put("pastBooks", getBookTitles(employee.getPastBooks()));
-
-                RenderTemplate.renderTemplate(exchange, "profile.ftlh", data);
+                String redirectUrl = "/profile?email=" + email;
+                exchange.getResponseHeaders().set("Location", redirectUrl);
+                exchange.sendResponseHeaders(ResponseCodes.REDIRECT.getCode(), -1);
             } else {
                 Map<String, Object> data = new HashMap<>();
                 data.put("errorMessage", "Ошибка входа: неверный email или пароль.");
@@ -47,12 +41,4 @@ public class LoginRequestHandler implements HttpHandler {
         }
     }
 
-
-    private List<String> getBookTitles(List<String> bookIds) {
-        return bookIds.stream()
-                .map(dataService::getBookById)
-                .filter(book -> book != null)
-                .map(book -> book.getTitle())
-                .toList();
-    }
 }

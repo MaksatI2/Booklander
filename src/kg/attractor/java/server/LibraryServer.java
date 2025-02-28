@@ -27,24 +27,33 @@ public class LibraryServer {
         server.createContext("/book/", new BookRequestHandler(dataService));
         server.createContext("/employees", new EmployeesRequestHandler(dataService));
         server.createContext("/employee", new EmployeeRequestHandler(dataService));
-        server.createContext("/login", new LoginRequestHandler(dataService));
         server.createContext("/register", new RegisterHandler());
+        server.createContext("/profile", new ProfileRequestHandler(dataService));
+        server.createContext("/login", new LoginRequestHandler(dataService));
 
         server.createContext("/", exchange -> {
             String requestPath = exchange.getRequestURI().getPath();
-            File file = new File("data" + requestPath);
 
+            if ("/".equals(requestPath)) {
+                String redirectUrl = "/books";
+                exchange.getResponseHeaders().set("Location", redirectUrl);
+                exchange.sendResponseHeaders(ResponseCodes.REDIRECT.getCode(), 0);
+                return;
+            }
+
+            File file = new File("data" + requestPath);
             if (file.exists() && !file.isDirectory()) {
                 new StaticFileHandler("data/").handle(exchange);
             } else {
                 sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "404 NOT FOUND");
             }
         });
+
         server.setExecutor(null);
     }
+
     public void start() {
         server.start();
         System.out.println("Server started on port " + server.getAddress().getPort());
     }
-
 }
