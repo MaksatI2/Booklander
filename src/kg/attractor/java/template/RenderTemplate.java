@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import kg.attractor.java.server.ResponseCodes;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -35,6 +36,18 @@ public class RenderTemplate {
         } catch (TemplateException e) {
             e.printStackTrace();
             exchange.sendResponseHeaders(500, -1);
+        }
+    }
+
+    public static void sendErrorResponse(HttpExchange exchange, ResponseCodes responseCode, String message) {
+        try {
+            byte[] data = message.getBytes();
+            exchange.sendResponseHeaders(responseCode.getCode(), data.length);
+            exchange.getResponseBody().write(data);
+            exchange.getResponseBody().flush();
+            exchange.getResponseBody().close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

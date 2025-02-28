@@ -4,35 +4,126 @@
     <meta charset="UTF-8">
     <title>${book.title}</title>
     <style>
-        body { font-family: Arial, sans-serif;
-          background: #f9f9f9;
-          padding: 20px;
-          display: flex;
-          justify-content: center;
-         }
-        .book-card { background: white;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-          max-width: 500px;
-          text-align: center;
-         }
-        .book-image img { width: 250px; height: 300px; border-radius: 5px; margin-bottom: 10px; }
-        .book-title { font-size: 25px; font-weight: bold; margin-bottom: 10px; }
-        .book-author { color: #d9534f; font-size: 20px; margin-bottom: 10px; }
-        .book-status { font-size: 16px; font-weight: bold; margin-bottom: 10px; }
-        .book-description { font-size: 14px; color: #555; margin-bottom: 10px; }
-        .borrower { font-size: 14px; color: #333; }
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            width: 100%;
+            background: #333;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+             margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar ul li {
+            display: inline;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 12px;
+        }
+
+         .navbar ul li a:hover {
+            background: #555;
+            border-radius: 5px;
+        }
+
+        .book-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin-top: 100px;
+            text-align: center;
+        }
+
+        .book-image img {
+            width: 250px;
+            height: 300px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .book-title {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .book-author {
+            color: #d9534f;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .book-status {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .book-description {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .borrower {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
         .back-link {
-          display: block;
-          margin-top: 20px;
-          color: blue;
-          text-decoration: none;
-          font-weight: bold;
-         }
+            display: inline-block;
+            padding: 12px 20px;
+            background: #2575fc;
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-link:hover {
+            background-color: #1e60d2;
+        }
     </style>
 </head>
 <body>
+
+<nav class="navbar">
+    <ul>
+        <li><a href="/login">Войти</a></li>
+        <li><a href="/books">Главная</a></li>
+        <li><a href="/employees">Сотрудники</a></li>
+    </ul>
+</nav>
+
 <div class="book-card">
     <div class="book-image">
          <img src="${book.image}" alt="Обложка ${book.title}">
@@ -47,8 +138,6 @@
     </#if>
     <a href="/books" class="back-link">Назад к списку</a>
 </div>
+
 </body>
 </html>
-
-
-

@@ -7,17 +7,24 @@ public class Book {
     private boolean issued;
     private String borrowerId;
     private String image;
+    private String description;
 
-    public Book(String id, String title, String author, boolean issued) {
+
+    public Book(String id, String title, String author, boolean issued, String description) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.issued = issued;
+        this.description = description;
     }
 
 
     public String getBorrowerId() {
         return borrowerId;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getImage() {
