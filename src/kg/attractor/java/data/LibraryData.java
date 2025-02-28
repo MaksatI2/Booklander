@@ -102,15 +102,7 @@ public class LibraryData {
     public void addUser(String email, String name, String password) {
         String newEmployeeId = generateNextEmployeeId();
 
-        employees.add(new Employee(
-                newEmployeeId,
-                name,
-                email,
-                password,
-                new ArrayList<>(),
-                new ArrayList<>()
-        ));
-
+        employees.add(new Employee(newEmployeeId, name, email, password, new ArrayList<>(), new ArrayList<>()));
         saveEmployees();
     }
 
