@@ -33,14 +33,22 @@ public class LibraryServer {
 
         server.createContext("/", exchange -> {
             String requestPath = exchange.getRequestURI().getPath();
-            File file = new File("data" + requestPath);
 
+            if ("/".equals(requestPath)) {
+                String redirectUrl = "/books";
+                exchange.getResponseHeaders().set("Location", redirectUrl);
+                exchange.sendResponseHeaders(ResponseCodes.REDIRECT.getCode(), 0);
+                return;
+            }
+
+            File file = new File("data" + requestPath);
             if (file.exists() && !file.isDirectory()) {
                 new StaticFileHandler("data/").handle(exchange);
             } else {
                 sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "404 NOT FOUND");
             }
         });
+
         server.setExecutor(null);
     }
 
