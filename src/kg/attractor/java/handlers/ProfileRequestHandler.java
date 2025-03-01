@@ -3,6 +3,7 @@ package kg.attractor.java.handlers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import kg.attractor.java.data.LibraryData;
+import kg.attractor.java.model.Book;
 import kg.attractor.java.model.Employee;
 import kg.attractor.java.template.RenderTemplate;
 import kg.attractor.java.utils.CookieUtil;
@@ -39,17 +40,16 @@ public class ProfileRequestHandler implements HttpHandler {
 
         Map<String, Object> data = new HashMap<>();
         data.put("employee", employee);
-        data.put("borrowedBooks", getBookTitles(employee.getBorrowedBooks()));
-        data.put("pastBooks", getBookTitles(employee.getPastBooks()));
+        data.put("borrowedBooks", getBookTitle(employee.getBorrowedBooks()));
+        data.put("pastBooks", getBookTitle(employee.getPastBooks()));
 
         RenderTemplate.renderTemplate(exchange, "profile.ftlh", data);
     }
 
-    private List<String> getBookTitles(List<String> bookIds) {
+    private List<Book> getBookTitle(List<String> bookIds) {
         return bookIds.stream()
                 .map(dataService::getBookById)
                 .filter(book -> book != null)
-                .map(book -> book.getTitle())
                 .toList();
     }
 }
