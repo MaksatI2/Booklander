@@ -18,6 +18,14 @@ public class Book {
         this.description = description;
     }
 
+    public void setIssued(boolean issued) {
+        this.issued = issued;
+    }
+
+    public void setBorrowerId(String borrowerId) {
+        this.borrowerId = borrowerId;
+    }
+
 
     public String getBorrowerId() {
         return borrowerId;
