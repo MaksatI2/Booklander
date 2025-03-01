@@ -18,7 +18,9 @@
       <input type="password" name="password" placeholder="Пароль" required><br>
     </div>
     <input type="submit" value="Войти">
-        <a href="/books">На главную</a>
+        <div class="btn"><a href="/books">На главную</a></div>
+        <div class="btn"><p>У вас нет аккаунта?</p><a href="/register">Зарегистрироваться</a><div>
+
   </form>
 
   <#if errorMessage??>
