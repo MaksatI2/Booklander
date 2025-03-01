@@ -20,19 +20,27 @@
     <p><strong>Имя:</strong> ${employee.name}</p>
     <p><strong>Email:</strong> ${employee.email}</p>
 
-    <h2>Текущие книги:</h2>
+    <h2>Взятые книги:</h2>
     <ul>
-        <#list borrowedBooks as book>
-        <li>${book}</li>
-        </#list>
+        <#if borrowedBooks?has_content>
+            <#list borrowedBooks as book>
+                <li>${book.title} (${book.author})</li>
+            </#list>
+        <#else>
+            <p>У вас нет взятых книг.</p>
+        </#if>
     </ul>
 
-    <h2>Прошлые книги:</h2>
-    <ul>
-        <#list pastBooks as book>
-        <li>${book}</li>
-        </#list>
-    </ul>
+    <h2>История возвратов:</h2>
+        <ul>
+            <#if pastBooks?has_content>
+                <#list pastBooks as book>
+                    <li>${book.title} (${book.author})</li>
+                </#list>
+            <#else>
+                <p>Вы еще не возвращали книги.</p>
+            </#if>
+        </ul>
 
     <a href="/login" class="back-link">Выйти</a>
 </div>
