@@ -152,6 +152,65 @@ public class LibraryData {
                 .toList();
     }
 
+    public Employee getEmployeeBySession(String sessionId) {
+        return employees.stream()
+                .filter(e -> e.getId().equals(sessionId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Employee getEmployeeById(String id) {
+        return employees.stream()
+                .filter(emp -> emp.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void updateEmployee(Employee updatedEmployee) {
+        for (int i = 0; i < employees.size(); i++) {
+            if (employees.get(i).getId().equals(updatedEmployee.getId())) {
+                employees.set(i, updatedEmployee);
+                saveEmployees();
+                return;
+            }
+        }
+    }
+
+    public void borrowBook(String userId, String bookId) {
+        Employee employee = getEmployeeById(userId);
+        if (employee == null || employee.getBorrowedBooks().contains(bookId)) return;
+
+        employee.getBorrowedBooks().add(bookId);
+        updateEmployee(employee);
+    }
+
+    public void returnBook(String userId, String bookId) {
+        Employee employee = getEmployeeById(userId);
+        Book book = getBookById(bookId);
+
+        if (employee != null && book != null) {
+            employee.getBorrowedBooks().remove(bookId);
+            if (!employee.getPastBooks().contains(bookId)) {
+                employee.getPastBooks().add(bookId);
+            }
+
+            book.setIssued(false);
+            book.setBorrowerId(null);
+
+            saveData();
+        }
+    }
+
+    public void saveData() {
+        try (FileWriter writer = new FileWriter(EMPLOYEES_FILE_PATH)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            gson.toJson(employees, writer);
+            System.out.println("Данные сохранены.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
 
