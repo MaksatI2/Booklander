@@ -166,46 +166,46 @@ public class LibraryData {
                 .orElse(null);
     }
 
-    public void updateEmployee(Employee updatedEmployee) {
-        for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).getId().equals(updatedEmployee.getId())) {
-                employees.set(i, updatedEmployee);
-                saveEmployees();
-                return;
-            }
-        }
-    }
-
     public void borrowBook(String userId, String bookId) {
         Employee employee = getEmployeeById(userId);
-        if (employee == null || employee.getBorrowedBooks().contains(bookId)) return;
+        Book book = getBookById(bookId);
 
+        if (employee == null || book == null || book.isIssued()) {
+            return;
+        }
+
+        book.setIssued(true);
+        book.setBorrowerId(userId);
         employee.getBorrowedBooks().add(bookId);
-        updateEmployee(employee);
+
+        saveData();
     }
 
     public void returnBook(String userId, String bookId) {
         Employee employee = getEmployeeById(userId);
         Book book = getBookById(bookId);
 
-        if (employee != null && book != null) {
-            employee.getBorrowedBooks().remove(bookId);
-            if (!employee.getPastBooks().contains(bookId)) {
-                employee.getPastBooks().add(bookId);
-            }
-
-            book.setIssued(false);
-            book.setBorrowerId(null);
-
-            saveData();
+        if (employee == null || book == null || !book.isIssued() || !book.getBorrowerId().equals(userId)) {
+            return;
         }
+
+        book.setIssued(false);
+        book.setBorrowerId("");
+        employee.getBorrowedBooks().remove(bookId);
+        employee.getPastBooks().add(bookId);
+
+        saveData();
     }
 
     public void saveData() {
-        try (FileWriter writer = new FileWriter(EMPLOYEES_FILE_PATH)) {
+        saveBooks();
+        saveEmployees();
+    }
+
+    private void saveBooks() {
+        try (FileWriter writer = new FileWriter(BOOKS_FILE_PATH)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(employees, writer);
-            System.out.println("Данные сохранены.");
+            gson.toJson(books, writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
