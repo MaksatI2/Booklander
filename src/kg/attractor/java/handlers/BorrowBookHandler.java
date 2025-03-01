@@ -8,6 +8,7 @@ import kg.attractor.java.utils.CookieUtil;
 import kg.attractor.java.utils.FormParser;
 
 import java.io.IOException;
+import java.net.HttpCookie;
 import java.util.Map;
 
 public class BorrowBookHandler implements HttpHandler {
@@ -24,7 +25,6 @@ public class BorrowBookHandler implements HttpHandler {
             return;
         }
 
-        // Проверяем авторизацию
         String userId = CookieUtil.getUserIdFromCookie(exchange);
         if (userId == null) {
             exchange.getResponseHeaders().set("Location", "/login");
@@ -40,10 +40,10 @@ public class BorrowBookHandler implements HttpHandler {
             return;
         }
 
-
         Employee employee = dataService.getEmployeeById(userId);
         if (employee == null || employee.getBorrowedBooks() == null || employee.getBorrowedBooks().size() >= 2) {
-            exchange.sendResponseHeaders(403, -1);
+            exchange.getResponseHeaders().set("Location", "/books");
+            exchange.sendResponseHeaders(302, -1);
             return;
         }
 
