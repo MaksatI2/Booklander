@@ -8,8 +8,8 @@ import kg.attractor.java.template.RenderTemplate;
 import kg.attractor.java.utils.FormParser;
 
 import java.io.IOException;
+import java.net.HttpCookie;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class LoginRequestHandler implements HttpHandler {
@@ -33,26 +33,32 @@ public class LoginRequestHandler implements HttpHandler {
             if (dataService.login(email, password)) {
                 Employee employee = dataService.getEmployeeByEmail(email);
 
+                String sessionId = employee.getId();
+                HttpCookie cookie = new HttpCookie("session_id", sessionId);
+                cookie.setMaxAge(600);
+                cookie.setHttpOnly(true);
+
+                exchange.getResponseHeaders().add("Set-Cookie", cookie.toString());
+
                 Map<String, Object> data = new HashMap<>();
                 data.put("employee", employee);
-                data.put("borrowedBooks", getBookTitles(employee.getBorrowedBooks()));
-                data.put("pastBooks", getBookTitles(employee.getPastBooks()));
+                data.put("borrowedBooks", employee.getBorrowedBooks().stream()
+                        .map(dataService::getBookById)
+                        .filter(book -> book != null)
+                        .toList());
+
+                data.put("pastBooks", employee.getPastBooks().stream()
+                        .map(dataService::getBookById)
+                        .filter(book -> book != null)
+                        .toList());
 
                 RenderTemplate.renderTemplate(exchange, "profile.ftlh", data);
-            } else {
+            }
+            else {
                 Map<String, Object> data = new HashMap<>();
                 data.put("errorMessage", "Ошибка входа: неверный email или пароль.");
                 RenderTemplate.renderTemplate(exchange, "login.ftlh", data);
             }
         }
-    }
-
-
-    private List<String> getBookTitles(List<String> bookIds) {
-        return bookIds.stream()
-                .map(dataService::getBookById)
-                .filter(book -> book != null)
-                .map(book -> book.getTitle())
-                .toList();
     }
 }
