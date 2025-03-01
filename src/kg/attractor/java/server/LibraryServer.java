@@ -7,11 +7,14 @@ import kg.attractor.java.handlers.*;
 import kg.attractor.java.handlers.BooksRequestHandler;
 import kg.attractor.java.handlers.BookRequestHandler;
 import kg.attractor.java.handlers.EmployeesRequestHandler;
+import kg.attractor.java.template.RenderTemplate;
 
 import java.io.File;
 import java.io.IOException;
 
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.util.Map;
 
 import static kg.attractor.java.template.RenderTemplate.sendErrorResponse;
 
@@ -40,20 +43,21 @@ public class LibraryServer {
         server.createContext("/", exchange -> {
             String requestPath = exchange.getRequestURI().getPath();
 
-            if ("/".equals(requestPath)) {
-                String redirectUrl = "/books";
-                exchange.getResponseHeaders().set("Location", redirectUrl);
-                exchange.sendResponseHeaders(ResponseCodes.REDIRECT.getCode(), 0);
-                return;
-            }
-
             File file = new File("data" + requestPath);
             if (file.exists() && !file.isDirectory()) {
                 new StaticFileHandler("data/").handle(exchange);
-            } else {
-                sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "404 NOT FOUND");
+                return;
             }
+
+            if ("/".equals(requestPath)) {
+                RenderTemplate.renderTemplate(exchange, "root.html", Map.of());
+                return;
+            }
+
+            RenderTemplate.sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "404 NOT FOUND");
         });
+
+
 
         server.setExecutor(null);
     }
