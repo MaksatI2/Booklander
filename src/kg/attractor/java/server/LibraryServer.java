@@ -1,7 +1,7 @@
 package kg.attractor.java.server;
 
-import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import kg.attractor.java.data.AuthFilter;
 import kg.attractor.java.data.LibraryData;
 import kg.attractor.java.handlers.*;
 import kg.attractor.java.handlers.BooksRequestHandler;
@@ -28,8 +28,14 @@ public class LibraryServer {
         server.createContext("/employees", new EmployeesRequestHandler(dataService));
         server.createContext("/employee", new EmployeeRequestHandler(dataService));
         server.createContext("/register", new RegisterHandler());
-        server.createContext("/profile", new ProfileRequestHandler(dataService));
         server.createContext("/login", new LoginRequestHandler(dataService));
+        server.createContext("/profile", new ProfileRequestHandler(dataService))
+                .getFilters().add(new AuthFilter(dataService));
+        server.createContext("/borrow", new BorrowBookHandler(dataService))
+                .getFilters().add(new AuthFilter(dataService));
+        server.createContext("/return", new ReturnBookHandler(dataService))
+                .getFilters().add(new AuthFilter(dataService));
+
 
         server.createContext("/", exchange -> {
             String requestPath = exchange.getRequestURI().getPath();
