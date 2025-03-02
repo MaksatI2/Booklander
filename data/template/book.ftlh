@@ -22,27 +22,33 @@
     </ul>
 </nav>
 
-<div class="book-card">
-    <div class="book-image">
-         <img src="${book.image}" alt="Обложка ${book.title}">
+<div class="book-container">
+    <div class="book-header">
+        <h1 class="book-title">${book.title}</h1>
     </div>
-    <div class="book-title">${book.title}</div>
-    <div class="book-author">${book.author}</div>
-    <div class="book-status">${book.issued?string("Выдана", "Свободна")}</div>
-
-    <form action="${book.issued?then('/return', '/borrow')}" method="post">
-        <input type="hidden" name="bookId" value="${book.id}">
-
-        <#if book.issued>
-            <#if currentUser?? && currentUser.borrowedBooks?? && currentUser.borrowedBooks?seq_contains(book.id)>
-                <button type="submit" class="back-link return-button">Вернуть книгу</button>
-            </#if>
-        <#else>
-            <button type="submit" class="back-link">Взять книгу</button>
-        </#if>
-    </form>
-
-    <a href="/books" class="back-link">Назад к списку</a>
+    <div class="book-content">
+        <div class="book-image">
+            <img src="${book.image}" alt="Обложка ${book.title}">
+        </div>
+        <div class="book-info">
+            <p><strong>Автор:</strong> ${book.author}</p>
+            <div class="book-description">${(book.description)</div>
+            <div class="book-status">Статус: ${book.issued?string("Выдана", "Свободна")}</div>
+            <form action="${book.issued?then('/return', '/borrow')}" method="post">
+                <input type="hidden" name="bookId" value="${book.id}">
+                <#if book.issued>
+                    <#if currentUser?? && currentUser.borrowedBooks?? && currentUser.borrowedBooks?seq_contains(book.id)>
+                        <button type="submit" class="return-button">Вернуть книгу</button>
+                    </#if>
+                <#else>
+                    <button type="submit" class="borrow-button">Взять книгу</button>
+                </#if>
+            </form>
+        </div>
+    </div>
+    <div class="book-footer">
+        <a href="/books" class="back-link">Назад к списку</a>
+    </div>
 </div>
 
 </body>
