@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryData {
-    private static final String BOOKS_FILE_PATH = "data/books.json";
-    private static final String EMPLOYEES_FILE_PATH = "data/employees.json";
+    private static final String BOOKS_FILE_PATH = "data/Json/books.json";
+    private static final String EMPLOYEES_FILE_PATH = "data/Json/employees.json";
     private static LibraryData instance;
     private List<Book> books;
     private List<Employee> employees;
