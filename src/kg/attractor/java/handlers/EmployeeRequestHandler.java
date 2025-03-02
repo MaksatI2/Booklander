@@ -7,6 +7,7 @@ import kg.attractor.java.model.Book;
 import kg.attractor.java.model.Employee;
 import kg.attractor.java.server.ResponseCodes;
 import kg.attractor.java.template.RenderTemplate;
+import kg.attractor.java.utils.CookieUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public class EmployeeRequestHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        String sessionId = CookieUtil.getUserIdFromCookie(exchange);
         try {
             String path = exchange.getRequestURI().getPath();
             String[] parts = path.split("/");
@@ -45,6 +47,7 @@ public class EmployeeRequestHandler implements HttpHandler {
             }
 
             Map<String, Object> data = new HashMap<>();
+            Employee employeeI = libraryData.getEmployeeById(sessionId);
             data.put("employee", employee);
 
             List<Book> borrowedBooks = libraryData.getBooksByEmployee(employeeId);
@@ -52,6 +55,7 @@ public class EmployeeRequestHandler implements HttpHandler {
 
             data.put("borrowedBooks", borrowedBooks);
             data.put("pastBooks", pastBooks);
+            data.put("currentUser", employeeI);
 
             RenderTemplate.renderTemplate(exchange, "employee.ftlh", data);
         } catch (Exception e) {

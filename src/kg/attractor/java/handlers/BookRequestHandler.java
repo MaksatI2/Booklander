@@ -24,6 +24,7 @@ public class BookRequestHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        String sessionId = CookieUtil.getUserIdFromCookie(exchange);
         try {
             String path = exchange.getRequestURI().getPath();
             String bookId = path.substring(path.lastIndexOf("/") + 1);
@@ -31,6 +32,7 @@ public class BookRequestHandler implements HttpHandler {
             Employee currentUser = (userId != null) ? dataService.getEmployeeById(userId) : null;
 
             Book book = dataService.getBookById(bookId);
+            Employee employee = dataService.getEmployeeById(sessionId);
 
             if (book == null) {
                 sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "Book not found.");
@@ -41,6 +43,7 @@ public class BookRequestHandler implements HttpHandler {
             data.put("book", book);
             data.put("currentUser", currentUser);
             data.put("borrowerName", book.isIssued() ? dataService.getEmployeeNameById(book.getBorrowerId()) : "Не выдана");
+            data.put("currentUser", employee);
 
             renderTemplate(exchange, "book.ftlh", data);
         } catch (Exception e) {
