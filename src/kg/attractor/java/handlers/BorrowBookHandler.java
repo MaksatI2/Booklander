@@ -8,7 +8,6 @@ import kg.attractor.java.utils.CookieUtil;
 import kg.attractor.java.utils.FormParser;
 
 import java.io.IOException;
-import java.net.HttpCookie;
 import java.util.Map;
 
 public class BorrowBookHandler implements HttpHandler {

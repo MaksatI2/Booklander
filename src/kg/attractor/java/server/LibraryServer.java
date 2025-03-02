@@ -12,11 +12,8 @@ import kg.attractor.java.template.RenderTemplate;
 import java.io.File;
 import java.io.IOException;
 
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.Map;
-
-import static kg.attractor.java.template.RenderTemplate.sendErrorResponse;
 
 public class LibraryServer {
     private final HttpServer server;
