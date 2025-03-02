@@ -10,13 +10,14 @@
 <nav class="navbar">
     <ul>
         <#if currentUser??>
-            <li><a href="/books">Главная</a></li>
+            <li><a href="/">Главная</a></li>
+            <li><a href="/books">Список книг</a></li>
             <li><a href="/employees">Сотрудники</a></li>
             <li><a href="/profile">Профиль</a></li>
-            <li><a href="/logout">Выйти</a></li>
         <#else>
+        <li><a href="/">Главная</a></li>
             <li><a href="/login">Войти</a></li>
-            <li><a href="/books">Главная</a></li>
+            <li><a href="/books">Список книг</a></li>
             <li><a href="/employees">Сотрудники</a></li>
         </#if>
     </ul>
@@ -32,7 +33,7 @@
         </div>
         <div class="book-info">
             <p><strong>Автор:</strong> ${book.author}</p>
-            <div class="book-description">${(book.description)</div>
+            <div class="book-description">${(book.description)!"Нет полного описания"}</div>
             <div class="book-status">Статус: ${book.issued?string("Выдана", "Свободна")}</div>
             <form action="${book.issued?then('/return', '/borrow')}" method="post">
                 <input type="hidden" name="bookId" value="${book.id}">

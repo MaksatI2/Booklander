@@ -9,7 +9,8 @@
 
 <nav class="navbar">
     <ul>
-        <li><a href="/books">Главная</a></li>
+        <li><a href="/">Главная</a></li>
+        <li><a href="/books">Список книг</a></li>
         <li><a href="/employees">Сотрудники</a></li>
     </ul>
 </nav>
@@ -42,7 +43,7 @@
             </#if>
         </ul>
 
-    <a href="/logout" class="back-link">Выйти</a>
+    <a href="/logout" class="back-link">Выйти из аккаунта</a>
 </div>
 
 </body>

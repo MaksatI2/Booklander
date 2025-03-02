@@ -10,13 +10,14 @@
 <nav class="navbar">
     <ul>
         <#if currentUser??>
-        <li><a href="/books">Главная</a></li>
+        <li><a href="/">Главная</a></li>
+        <li><a href="/books">Список книг</a></li>
         <li><a href="/employees">Сотрудники</a></li>
         <li><a href="/profile">Профиль</a></li>
-        <li><a href="/logout">Выйти</a></li>
         <#else>
+        <li><a href="/">Главная</a></li>
         <li><a href="/login">Войти</a></li>
-        <li><a href="/books">Главная</a></li>
+        <li><a href="/books">Список книг</a></li>
         <li><a href="/employees">Сотрудники</a></li>
     </#if>
     </ul>
@@ -47,6 +48,14 @@
 </div>
 </#list>
 </div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2025 Библиотека | Все права защищены</p>
+        <p>Контакты: MBook@gmail.com | Телефон: +996 700-27-09-84</p>
+        <p>О сайте: Это онлайн-библиотека для сотрудников офиса</p>
+    </div>
+</footer>
 
 </body>
 </html>
