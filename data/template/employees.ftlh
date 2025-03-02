@@ -30,7 +30,7 @@
         <div class="employee-info">
             <div class="employee-name">${employee.name}</div>
             <div class="employee-id">ID: ${employee.id}</div>
-            <h3>Нынешние книги:</h3>
+            <h3>Текущие книги:</h3>
             <div class="employee-books">
                 <#assign books = borrowedBooksMap[employee.id]![]>
                 <#if books?size == 0>
