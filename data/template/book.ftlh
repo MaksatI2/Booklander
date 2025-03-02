@@ -30,20 +30,18 @@
     <div class="book-author">${book.author}</div>
     <div class="book-status">${book.issued?string("Выдана", "Свободна")}</div>
 
-    <#if !book.issued>
-        <form action="/borrow" method="post">
-            <input type="hidden" name="bookId" value="${book.id}">
-            <button type="submit" class="back-link">Взять книгу</button>
-        </form>
-    <#else>
+    <form action="${book.issued?then('/return', '/borrow')}" method="post">
+        <input type="hidden" name="bookId" value="${book.id}">
 
-        <#if currentUser?? && currentUser.borrowedBooks?? && currentUser.borrowedBooks?seq_contains(book.id)>
-            <form action="/return" method="post">
-                <input type="hidden" name="bookId" value="${book.id}">
+        <#if book.issued>
+            <#if currentUser?? && currentUser.borrowedBooks?? && currentUser.borrowedBooks?seq_contains(book.id)>
                 <button type="submit" class="back-link return-button">Вернуть книгу</button>
-            </form>
+            </#if>
+        <#else>
+            <button type="submit" class="back-link">Взять книгу</button>
         </#if>
-    </#if>
+    </form>
+
     <a href="/books" class="back-link">Назад к списку</a>
 </div>
 

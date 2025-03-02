@@ -60,6 +60,7 @@ public class LibraryData {
     public List<Book> getBooks() {
         return books;
     }
+
     public Book getBookById(String id) {
         return books.stream().filter(b -> b.getId().equals(id)).findFirst().orElse(null);
     }
@@ -67,6 +68,7 @@ public class LibraryData {
     public List<Employee> getEmployees() {
         return employees;
     }
+
     public String getEmployeeNameById(String id) {
         return employees.stream().filter(e -> e.getId().equals(id)).map(Employee::getName).findFirst().orElse("Неизвестно");
     }
@@ -93,47 +95,6 @@ public class LibraryData {
                 .map(Book::getTitle)
                 .findFirst()
                 .orElse("Неизвестная книга");
-    }
-
-    public boolean isUserExists(String email) {
-        return employees.stream().anyMatch(emp -> emp.getEmail().equals(email));
-    }
-
-    public void addUser(String email, String name, String password) {
-        String newEmployeeId = generateNextEmployeeId();
-
-        employees.add(new Employee(newEmployeeId, name, email, password, new ArrayList<>(), new ArrayList<>()));
-        saveEmployees();
-    }
-
-    private void saveEmployees() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(EMPLOYEES_FILE_PATH, StandardCharsets.UTF_8))) {
-            writer.write(gson.toJson(employees));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String generateNextEmployeeId() {
-        int maxId = employees.stream()
-                .map(e -> e.getId())
-                .mapToInt(Integer::parseInt)
-                .max()
-                .orElse(0);
-
-        return String.valueOf(maxId + 1);
-    }
-
-    public Employee getEmployeeByEmail(String email) {
-        return employees.stream()
-                .filter(e -> e.getEmail().equalsIgnoreCase(email))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public boolean login(String email, String password) {
-        Employee employee = getEmployeeByEmail(email);
-        return employee != null && employee.getPassword().trim().equals(password.trim());
     }
 
     public List<Book> getBooksByEmployee(String employeeId) {
@@ -164,6 +125,39 @@ public class LibraryData {
                 .filter(emp -> emp.getId().equals(id))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public Employee getEmployeeByEmail(String email) {
+        return employees.stream()
+                .filter(e -> e.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public boolean isUserExists(String email) {
+        return employees.stream().anyMatch(emp -> emp.getEmail().equals(email));
+    }
+
+    public void addUser(String email, String name, String password) {
+        String newEmployeeId = generateNextEmployeeId();
+
+        employees.add(new Employee(newEmployeeId, name, email, password, new ArrayList<>(), new ArrayList<>()));
+        saveEmployees();
+    }
+
+    public String generateNextEmployeeId() {
+        int maxId = employees.stream()
+                .map(e -> e.getId())
+                .mapToInt(Integer::parseInt)
+                .max()
+                .orElse(0);
+
+        return String.valueOf(maxId + 1);
+    }
+
+    public boolean login(String email, String password) {
+        Employee employee = getEmployeeByEmail(email);
+        return employee != null && employee.getPassword().trim().equals(password.trim());
     }
 
     public void borrowBook(String userId, String bookId) {
@@ -206,6 +200,14 @@ public class LibraryData {
         try (FileWriter writer = new FileWriter(BOOKS_FILE_PATH)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(books, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveEmployees() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(EMPLOYEES_FILE_PATH, StandardCharsets.UTF_8))) {
+            writer.write(gson.toJson(employees));
         } catch (IOException e) {
             e.printStackTrace();
         }
