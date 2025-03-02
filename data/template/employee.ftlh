@@ -9,16 +9,22 @@
 
 <nav class="navbar">
     <ul>
-        <li><a href="/login">Войти</a></li>
-        <li><a href="/books">Главная</a></li>
-        <li><a href="/employees">Сотрудники</a></li>
+        <#if currentUser??>
+            <li><a href="/books">Главная</a></li>
+            <li><a href="/employees">Сотрудники</a></li>
+            <li><a href="/profile">Профиль</a></li>
+            <li><a href="/logout">Выйти</a></li>
+        <#else>
+            <li><a href="/login">Войти</a></li>
+            <li><a href="/books">Главная</a></li>
+            <li><a href="/employees">Сотрудники</a></li>
+        </#if>
     </ul>
 </nav>
 
 <div class="content">
     <h1>Информация о сотруднике</h1>
     <h2>Имя: ${employee.name}</h2>
-    <h2>Email: ${employee.email}</h2>
 
     <h2>Текущие книги:</h2>
     <div class="book-container">

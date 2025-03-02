@@ -9,9 +9,16 @@
 
 <nav class="navbar">
     <ul>
+        <#if currentUser??>
+        <li><a href="/books">Главная</a></li>
+        <li><a href="/employees">Сотрудники</a></li>
+        <li><a href="/profile">Профиль</a></li>
+        <li><a href="/logout">Выйти</a></li>
+        <#else>
         <li><a href="/login">Войти</a></li>
         <li><a href="/books">Главная</a></li>
         <li><a href="/employees">Сотрудники</a></li>
+    </#if>
     </ul>
 </nav>
 
@@ -35,21 +42,8 @@
                 </ul>
             </#if>
         </div>
-        <h3>Прошлые книги:</h3>
-        <div class="employee-books">
-            <#assign books = pastBooksMap[employee.id]![]>
-            <#if books?size == 0>
-            Нет прошлых книг
-            <#else>
-            <ul>
-                <#list books as bookTitle>
-                <li>${bookTitle}</li>
-            </#list>
-            </ul>
-        </#if>
     </div>
     <a href="/employee/${employee.id}" class="employee-link">Инфо о сотруднике</a>
-</div>
 </div>
 </#list>
 </div>

@@ -51,7 +51,6 @@ body {
 
         ul li {
             font-size: 16px;
-            background-color: #f2f2f2;
             margin: 5px 0;
             padding: 8px;
             border-radius: 5px;
@@ -99,6 +98,7 @@ body {
             text-decoration: none;
             font-size: 16px;
             padding: 8px 12px;
+            color: white;
         }
 
         .navbar ul li a:hover {

@@ -42,7 +42,7 @@
             </#if>
         </ul>
 
-    <a href="/login" class="back-link">Выйти</a>
+    <a href="/logout" class="back-link">Выйти</a>
 </div>
 
 </body>
