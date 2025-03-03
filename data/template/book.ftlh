@@ -33,6 +33,7 @@
         </div>
         <div class="book-info">
             <p><strong>Автор:</strong> ${book.author}</p>
+            <p><strong>Год издания:</strong> ${book.age}</p>
             <div class="book-description">${(book.description)!"Нет полного описания"}</div>
             <div class="book-status">Статус: ${book.issued?string("Выдана", "Свободна")}</div>
             <form action="${book.issued?then('/return', '/borrow')}" method="post">
