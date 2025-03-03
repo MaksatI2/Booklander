@@ -5,13 +5,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import kg.attractor.java.model.Book;
 import kg.attractor.java.model.Employee;
+import kg.attractor.java.model.LogEntry;
 
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -20,12 +19,15 @@ import java.util.Set;
 public class LibraryData {
     private static final String BOOKS_FILE_PATH = "data/Json/books.json";
     private static final String EMPLOYEES_FILE_PATH = "data/Json/employees.json";
+    private static final String LOG_FILE = "data/Json/log.json";
     private static LibraryData instance;
+    private List<LogEntry> logs;
     private List<Book> books;
     private List<Employee> employees;
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public LibraryData() {
+        this.logs = loadLogs();
         loadData();
         try {
             Gson gson = new Gson();
@@ -56,6 +58,20 @@ public class LibraryData {
             employees = gson.fromJson(employeeReader, employeeListType);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private List<LogEntry> loadLogs() {
+        File file = new File(LOG_FILE);
+        if (!file.exists()) {
+            return new ArrayList<>();
+        }
+        try (Reader reader = new FileReader(file)) {
+            Type listType = new TypeToken<List<LogEntry>>() {}.getType();
+            return gson.fromJson(reader, listType);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 
@@ -162,6 +178,34 @@ public class LibraryData {
         return employee != null && employee.getPassword().trim().equals(password.trim());
     }
 
+    private void saveLogs() {
+        try (Writer writer = new FileWriter(LOG_FILE)) {
+            gson.toJson(logs, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<LogEntry> getLogs() {
+        return logs;
+    }
+
+    public void logBookBorrow(String employeeId, String bookId) {
+        LogEntry entry = new LogEntry(bookId, employeeId, LocalDate.now());
+        logs.add(entry);
+        saveLogs();
+    }
+
+    public void logBookReturn(String employeeId, String bookId) {
+        for (LogEntry entry : logs) {
+            if (entry.getBookId().equals(bookId) && entry.getEmployeeId().equals(employeeId) && entry.getReturnDate() == null) {
+                entry.setReturnDate(LocalDate.now());
+                saveLogs();
+                return;
+            }
+        }
+    }
+
     public void borrowBook(String userId, String bookId) {
         Employee employee = getEmployeeById(userId);
         Book book = getBookById(bookId);
@@ -173,6 +217,8 @@ public class LibraryData {
         book.setIssued(true);
         book.setBorrowerId(userId);
         employee.getBorrowedBooks().add(bookId);
+
+        logBookBorrow(userId, bookId);
 
         saveData();
     }
@@ -193,6 +239,8 @@ public class LibraryData {
         Set<String> uniquePastBooks = new HashSet<>(employee.getPastBooks());
         uniquePastBooks.add(bookId);
         employee.setPastBooks(new ArrayList<>(uniquePastBooks));
+
+        logBookReturn(userId, bookId);
 
         saveData();
     }
