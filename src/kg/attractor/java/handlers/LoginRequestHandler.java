@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 import kg.attractor.java.data.LibraryData;
 import kg.attractor.java.model.Employee;
 import kg.attractor.java.template.RenderTemplate;
+import kg.attractor.java.utils.CookieUtil;
 import kg.attractor.java.utils.FormParser;
 
 import java.io.IOException;
@@ -21,7 +22,14 @@ public class LoginRequestHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        String sessionId = CookieUtil.getUserIdFromCookie(exchange);
         String method = exchange.getRequestMethod();
+
+        if (sessionId != null && LibraryData.getInstance().getEmployeeById(sessionId) != null) {
+            exchange.getResponseHeaders().set("Location", "/profile");
+            exchange.sendResponseHeaders(302, -1);
+            return;
+        }
 
         if ("GET".equals(method)) {
             RenderTemplate.renderTemplate(exchange, "login.ftlh", null);
@@ -33,8 +41,8 @@ public class LoginRequestHandler implements HttpHandler {
             if (dataService.login(email, password)) {
                 Employee employee = dataService.getEmployeeByEmail(email);
 
-                String sessionId = employee.getId();
-                HttpCookie cookie = new HttpCookie("session_id", sessionId);
+                String newSessionId = employee.getId();
+                HttpCookie cookie = new HttpCookie("session_id", newSessionId);
                 cookie.setMaxAge(600);
                 cookie.setHttpOnly(true);
 
