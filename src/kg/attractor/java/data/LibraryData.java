@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LibraryData {
     private static final String BOOKS_FILE_PATH = "data/Json/books.json";
@@ -187,6 +189,10 @@ public class LibraryData {
         book.setBorrowerId("");
         employee.getBorrowedBooks().remove(bookId);
         employee.getPastBooks().add(bookId);
+
+        Set<String> uniquePastBooks = new HashSet<>(employee.getPastBooks());
+        uniquePastBooks.add(bookId);
+        employee.setPastBooks(new ArrayList<>(uniquePastBooks));
 
         saveData();
     }
