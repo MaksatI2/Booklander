@@ -9,14 +9,16 @@ public class Book {
     private String image;
     private String shortDescription;
     private String description;
+    private String age;
 
 
-    public Book(String id, String title, String author, boolean issued, String shortDescription) {
+    public Book(String id, String title, String author, boolean issued, String shortDescription,String age) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.issued = issued;
         this.shortDescription = shortDescription;
+        this.age = age;
     }
 
     public void setIssued(boolean issued) {
@@ -47,6 +49,8 @@ public class Book {
     public String getId() {
         return id;
     }
+
+    public String getAge() {return age;}
 
     public String getTitle() {
         return title;
