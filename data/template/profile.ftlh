@@ -12,6 +12,7 @@
         <li><a href="/">Главная</a></li>
         <li><a href="/books">Список книг</a></li>
         <li><a href="/employees">Сотрудники</a></li>
+        <li><a href="/log">Журнал</a></li>
         <li><a href="/logout" class="logout">Выйти с профиля</a></li>
     </ul>
 </nav>
