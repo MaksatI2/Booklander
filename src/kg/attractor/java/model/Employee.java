@@ -42,4 +42,8 @@ public class Employee {
     public List<String> getPastBooks() {
         return pastBooks;
     }
+
+    public void setPastBooks(List<String> pastBooks) {
+        this.pastBooks = pastBooks;
+    }
 }
