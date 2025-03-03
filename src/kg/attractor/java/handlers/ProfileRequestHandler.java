@@ -23,6 +23,7 @@ public class ProfileRequestHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String sessionId = CookieUtil.getUserIdFromCookie(exchange);
+        String userId = CookieUtil.getUserIdFromCookie(exchange);
 
         if (sessionId == null) {
             exchange.getResponseHeaders().set("Location", "/login");
@@ -31,6 +32,7 @@ public class ProfileRequestHandler implements HttpHandler {
         }
 
         Employee employee = dataService.getEmployeeById(sessionId);
+        Employee currentUser = (userId != null) ? dataService.getEmployeeById(userId) : null;
         if (employee == null) {
             CookieUtil.clearUserIdCookie(exchange);
             exchange.getResponseHeaders().set("Location", "/login");
@@ -42,6 +44,7 @@ public class ProfileRequestHandler implements HttpHandler {
         data.put("employee", employee);
         data.put("borrowedBooks", getBookTitle(employee.getBorrowedBooks()));
         data.put("pastBooks", getBookTitle(employee.getPastBooks()));
+        data.put("currentUser", currentUser);
 
         RenderTemplate.renderTemplate(exchange, "profile.ftlh", data);
     }
