@@ -30,6 +30,7 @@ public class LibraryServer {
         server.createContext("/register", new RegisterHandler());
         server.createContext("/login", new LoginRequestHandler(dataService));
         server.createContext("/logout", new LogoutRequestHandler());
+        server.createContext("/log", new LogRequestHandler(dataService));
         server.createContext("/profile", new ProfileRequestHandler(dataService))
                 .getFilters().add(new AuthFilter(dataService));
         server.createContext("/borrow", new BorrowBookHandler(dataService))
