@@ -32,7 +32,7 @@
             <input type="hidden" name="bookId" value="${book.id}">
             <#if book.issued>
             <#if currentUser?? && currentUser.borrowedBooks?? && currentUser.borrowedBooks?seq_contains(book.id)>
-            <button type="submit" class="return-button">Вернуть книгу</button>
+            <button type="submit" class="button borrow-action">Вернуть книгу</button>
         </#if>
     </#if>
     </form>
@@ -53,7 +53,7 @@
                                 <#if currentUser?? && currentUser.borrowedBooks?? && currentUser.borrowedBooks?seq_contains(book.id)>
                             </#if>
                             <#else>
-                                <button type="submit" class="borrow-button">Взять книгу</button>
+                                <button type="submit" class="button borrow-action">Взять книгу</button>
                             </#if>
                          </form>
                     </li>
