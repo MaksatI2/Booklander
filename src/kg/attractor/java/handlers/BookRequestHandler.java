@@ -40,6 +40,12 @@ public class BookRequestHandler implements HttpHandler {
             }
 
             Map<String, Object> data = new HashMap<>();
+            if (employee != null) {
+                data.put("error", employee.hasBorrowError());
+                employee.setBorrowError(false);
+            } else {
+                data.put("error", false);
+            }
             data.put("book", book);
             data.put("currentUser", currentUser);
             data.put("borrowerName", book.isIssued() ? dataService.getEmployeeNameById(book.getBorrowerId()) : "Не выдана");

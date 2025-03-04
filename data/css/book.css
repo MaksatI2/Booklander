@@ -93,3 +93,7 @@ body {
         .back-link:hover {
             background-color: #1e60d2;
         }
+
+        .error-message {
+        color: red;
+        }
