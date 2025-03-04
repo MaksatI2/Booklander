@@ -31,7 +31,7 @@ public class EmployeeRequestHandler implements HttpHandler {
             String[] parts = path.split("/");
 
             if (parts.length < 3) {
-                RenderTemplate.sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "Некорректный запрос");
+                RenderTemplate.sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "Invalid request");
                 return;
             }
 
@@ -42,7 +42,7 @@ public class EmployeeRequestHandler implements HttpHandler {
                     .orElse(null);
 
             if (employee == null) {
-                RenderTemplate.sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "Сотрудник не найден");
+                RenderTemplate.sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "Employee not found");
                 return;
             }
 
