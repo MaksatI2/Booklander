@@ -40,16 +40,15 @@ public class BookRequestHandler implements HttpHandler {
             }
 
             Map<String, Object> data = new HashMap<>();
-            if (employee != null) {
-                data.put("error", employee.hasBorrowError());
-                employee.setBorrowError(false);
-            } else {
-                data.put("error", false);
+            boolean error = currentUser != null && currentUser.hasBorrowError();
+            if (currentUser != null) {
+                currentUser.setBorrowError(false);
             }
             data.put("book", book);
             data.put("currentUser", currentUser);
             data.put("borrowerName", book.isIssued() ? dataService.getEmployeeNameById(book.getBorrowerId()) : "Не выдана");
             data.put("currentUser", employee);
+            data.put("error", error);
 
             renderTemplate(exchange, "book.ftlh", data);
         } catch (Exception e) {
