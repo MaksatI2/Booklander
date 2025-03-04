@@ -37,7 +37,7 @@
         <tbody>
             <#list logs as log>
                 <tr>
-                    <td>${log.bookId}</td>
+                    <td>${log.bookName}</td>
                     <td>${log.employeeId}</td>
                     <td>${log.borrowDate}</td>
                     <td>${log.returnDate?default("—")}</td>
