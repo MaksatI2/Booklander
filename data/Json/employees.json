@@ -4,11 +4,10 @@
     "name": "Аиша",
     "email": "Aisha@gmail.com",
     "password": "qwe",
-    "borrowedBooks": [
-      "1"
-    ],
+    "borrowedBooks": [],
     "pastBooks": [
-      "5"
+      "1",
+      "2"
     ]
   },
   {
@@ -25,22 +24,19 @@
     "email": "Kuba@gmail.com",
     "password": "033",
     "borrowedBooks": [
-      "2",
-      "3"
+      "2"
     ],
-    "pastBooks": []
+    "pastBooks": [
+      "1"
+    ]
   },
   {
     "id": "4",
     "name": "Максат",
     "email": "Maksat@gmail.com",
     "password": "044",
-    "borrowedBooks": [
-      "7"
-    ],
-    "pastBooks": [
-      "1"
-    ]
+    "borrowedBooks": [],
+    "pastBooks": []
   },
   {
     "id": "5",
@@ -56,19 +52,22 @@
     "email": "Adis@gmail.com",
     "password": "066",
     "borrowedBooks": [],
-    "pastBooks": [
-      "4",
-      "7"
-    ]
+    "pastBooks": []
   },
   {
     "id": "7",
     "name": "Элдана",
     "email": "Eldana@gmail.com",
     "password": "077",
-    "borrowedBooks": [
-      "6"
-    ],
+    "borrowedBooks": [],
+    "pastBooks": []
+  },
+  {
+    "id": "8",
+    "name": "Иван",
+    "email": "zer0icemax@gmail.com",
+    "password": "1234",
+    "borrowedBooks": [],
     "pastBooks": []
   }
 ]

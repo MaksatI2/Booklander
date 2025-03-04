@@ -7,20 +7,35 @@ public class Book {
     private boolean issued;
     private String borrowerId;
     private String image;
+    private String shortDescription;
     private String description;
+    private String age;
 
 
-    public Book(String id, String title, String author, boolean issued, String description) {
+    public Book(String id, String title, String author, boolean issued, String shortDescription,String age) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.issued = issued;
-        this.description = description;
+        this.shortDescription = shortDescription;
+        this.age = age;
+    }
+
+    public void setIssued(boolean issued) {
+        this.issued = issued;
+    }
+
+    public void setBorrowerId(String borrowerId) {
+        this.borrowerId = borrowerId;
     }
 
 
     public String getBorrowerId() {
         return borrowerId;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
     }
 
     public String getDescription() {
@@ -34,6 +49,8 @@ public class Book {
     public String getId() {
         return id;
     }
+
+    public String getAge() {return age;}
 
     public String getTitle() {
         return title;

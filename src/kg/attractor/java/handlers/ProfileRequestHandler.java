@@ -3,8 +3,10 @@ package kg.attractor.java.handlers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import kg.attractor.java.data.LibraryData;
+import kg.attractor.java.model.Book;
 import kg.attractor.java.model.Employee;
 import kg.attractor.java.template.RenderTemplate;
+import kg.attractor.java.utils.CookieUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -20,25 +22,37 @@ public class ProfileRequestHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        Employee employee = createFakeUser();
+        String sessionId = CookieUtil.getUserIdFromCookie(exchange);
+        String userId = CookieUtil.getUserIdFromCookie(exchange);
+
+        if (sessionId == null) {
+            exchange.getResponseHeaders().set("Location", "/login");
+            exchange.sendResponseHeaders(302, -1);
+            return;
+        }
+
+        Employee employee = dataService.getEmployeeById(sessionId);
+        Employee currentUser = (userId != null) ? dataService.getEmployeeById(userId) : null;
+        if (employee == null) {
+            CookieUtil.clearUserIdCookie(exchange);
+            exchange.getResponseHeaders().set("Location", "/login");
+            exchange.sendResponseHeaders(302, -1);
+            return;
+        }
 
         Map<String, Object> data = new HashMap<>();
         data.put("employee", employee);
-        data.put("borrowedBooks", getBookTitles(employee.getBorrowedBooks()));
-        data.put("pastBooks", getBookTitles(employee.getPastBooks()));
+        data.put("borrowedBooks", getBookTitle(employee.getBorrowedBooks()));
+        data.put("pastBooks", getBookTitle(employee.getPastBooks()));
+        data.put("currentUser", currentUser);
 
         RenderTemplate.renderTemplate(exchange, "profile.ftlh", data);
     }
 
-    private List<String> getBookTitles(List<String> bookIds) {
+    private List<Book> getBookTitle(List<String> bookIds) {
         return bookIds.stream()
                 .map(dataService::getBookById)
                 .filter(book -> book != null)
-                .map(book -> book.getTitle())
                 .toList();
-    }
-
-    private Employee createFakeUser() {
-        return new Employee("999", "Некий пользователь", "fake@email.com", "1234", List.of(), List.of());
     }
 }

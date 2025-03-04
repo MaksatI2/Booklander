@@ -1,0 +1,25 @@
+[
+  {
+    "bookName": "33 стратегии войны",
+    "employeeId": "1",
+    "borrowDate": "2025-03-04",
+    "returnDate": "2025-03-04"
+  },
+  {
+    "bookName": "Белый параход",
+    "employeeId": "1",
+    "borrowDate": "2025-03-04",
+    "returnDate": "2025-03-04"
+  },
+  {
+    "bookName": "33 стратегии войны",
+    "employeeId": "3",
+    "borrowDate": "2025-03-04",
+    "returnDate": "2025-03-04"
+  },
+  {
+    "bookName": "Белый параход",
+    "employeeId": "3",
+    "borrowDate": "2025-03-04"
+  }
+]

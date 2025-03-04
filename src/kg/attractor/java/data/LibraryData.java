@@ -5,25 +5,29 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import kg.attractor.java.model.Book;
 import kg.attractor.java.model.Employee;
+import kg.attractor.java.model.LogEntry;
 
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LibraryData {
-    private static final String BOOKS_FILE_PATH = "data/books.json";
-    private static final String EMPLOYEES_FILE_PATH = "data/employees.json";
+    private static final String BOOKS_FILE_PATH = "data/Json/books.json";
+    private static final String EMPLOYEES_FILE_PATH = "data/Json/employees.json";
+    private static final String LOG_FILE = "data/Json/log.json";
     private static LibraryData instance;
+    private List<LogEntry> logs;
     private List<Book> books;
     private List<Employee> employees;
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public LibraryData() {
+        this.logs = loadLogs();
         loadData();
         try {
             Gson gson = new Gson();
@@ -57,9 +61,24 @@ public class LibraryData {
         }
     }
 
+    private List<LogEntry> loadLogs() {
+        File file = new File(LOG_FILE);
+        if (!file.exists()) {
+            return new ArrayList<>();
+        }
+        try (Reader reader = new FileReader(file)) {
+            Type listType = new TypeToken<List<LogEntry>>() {}.getType();
+            return gson.fromJson(reader, listType);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
     public List<Book> getBooks() {
         return books;
     }
+
     public Book getBookById(String id) {
         return books.stream().filter(b -> b.getId().equals(id)).findFirst().orElse(null);
     }
@@ -67,6 +86,7 @@ public class LibraryData {
     public List<Employee> getEmployees() {
         return employees;
     }
+
     public String getEmployeeNameById(String id) {
         return employees.stream().filter(e -> e.getId().equals(id)).map(Employee::getName).findFirst().orElse("Неизвестно");
     }
@@ -95,47 +115,6 @@ public class LibraryData {
                 .orElse("Неизвестная книга");
     }
 
-    public boolean isUserExists(String email) {
-        return employees.stream().anyMatch(emp -> emp.getEmail().equals(email));
-    }
-
-    public void addUser(String email, String name, String password) {
-        String newEmployeeId = generateNextEmployeeId();
-
-        employees.add(new Employee(newEmployeeId, name, email, password, new ArrayList<>(), new ArrayList<>()));
-        saveEmployees();
-    }
-
-    private void saveEmployees() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(EMPLOYEES_FILE_PATH, StandardCharsets.UTF_8))) {
-            writer.write(gson.toJson(employees));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String generateNextEmployeeId() {
-        int maxId = employees.stream()
-                .map(e -> e.getId())
-                .mapToInt(Integer::parseInt)
-                .max()
-                .orElse(0);
-
-        return String.valueOf(maxId + 1);
-    }
-
-    public Employee getEmployeeByEmail(String email) {
-        return employees.stream()
-                .filter(e -> e.getEmail().equalsIgnoreCase(email))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public boolean login(String email, String password) {
-        Employee employee = getEmployeeByEmail(email);
-        return employee != null && employee.getPassword().trim().equals(password.trim());
-    }
-
     public List<Book> getBooksByEmployee(String employeeId) {
         return employees.stream()
                 .filter(e -> e.getId().equals(employeeId))
@@ -150,6 +129,143 @@ public class LibraryData {
                 .flatMap(e -> e.getPastBooks().stream())
                 .map(this::getBookById)
                 .toList();
+    }
+
+    public Employee getEmployeeBySession(String sessionId) {
+        return employees.stream()
+                .filter(e -> e.getId().equals(sessionId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Employee getEmployeeById(String id) {
+        return employees.stream()
+                .filter(emp -> emp.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Employee getEmployeeByEmail(String email) {
+        return employees.stream()
+                .filter(e -> e.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public boolean isUserExists(String email) {
+        return employees.stream().anyMatch(emp -> emp.getEmail().equals(email));
+    }
+
+    public void addUser(String email, String name, String password) {
+        String newEmployeeId = generateNextEmployeeId();
+
+        employees.add(new Employee(newEmployeeId, name, email, password, new ArrayList<>(), new ArrayList<>()));
+        saveEmployees();
+    }
+
+    public String generateNextEmployeeId() {
+        int maxId = employees.stream()
+                .map(e -> e.getId())
+                .mapToInt(Integer::parseInt)
+                .max()
+                .orElse(0);
+
+        return String.valueOf(maxId + 1);
+    }
+
+    public boolean login(String email, String password) {
+        Employee employee = getEmployeeByEmail(email);
+        return employee != null && employee.getPassword().trim().equals(password.trim());
+    }
+
+    private void saveLogs() {
+        try (Writer writer = new FileWriter(LOG_FILE)) {
+            gson.toJson(logs, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<LogEntry> getLogs() {
+        return logs;
+    }
+
+    public void logBookBorrow(String employeeId, String bookId) {
+        String bookTitle = getBookTitleById(bookId);
+        LogEntry entry = new LogEntry(bookTitle, employeeId, LocalDate.now());
+        logs.add(entry);
+        saveLogs();
+    }
+
+    public void logBookReturn(String employeeId, String bookId) {
+        for (LogEntry entry : logs) {
+            if (entry.getBookName().equals(getBookTitleById(bookId)) && entry.getEmployeeId().equals(employeeId) && entry.getReturnDate() == null) {
+                entry.setReturnDate(LocalDate.now());
+                saveLogs();
+                return;
+            }
+        }
+    }
+
+    public void borrowBook(String userId, String bookId) {
+        Employee employee = getEmployeeById(userId);
+        Book book = getBookById(bookId);
+
+        if (employee == null || book == null || book.isIssued()) {
+            return;
+        }
+
+        book.setIssued(true);
+        book.setBorrowerId(userId);
+        employee.getBorrowedBooks().add(bookId);
+
+        logBookBorrow(userId, bookId);
+
+        saveData();
+    }
+
+    public void returnBook(String userId, String bookId) {
+        Employee employee = getEmployeeById(userId);
+        Book book = getBookById(bookId);
+
+        if (employee == null || book == null || !book.isIssued() || !book.getBorrowerId().equals(userId)) {
+            return;
+        }
+
+        book.setIssued(false);
+        book.setBorrowerId("");
+        employee.getBorrowedBooks().remove(bookId);
+        employee.getPastBooks().add(bookId);
+
+        Set<String> uniquePastBooks = new HashSet<>(employee.getPastBooks());
+        uniquePastBooks.add(bookId);
+        employee.setPastBooks(new ArrayList<>(uniquePastBooks));
+
+        logBookReturn(userId, bookId);
+
+        saveData();
+    }
+
+    public void saveData() {
+        saveBooks();
+        saveEmployees();
+    }
+
+    private void saveBooks() {
+        try (FileWriter writer = new FileWriter(BOOKS_FILE_PATH)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            gson.toJson(books, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveEmployees() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(EMPLOYEES_FILE_PATH, StandardCharsets.UTF_8))) {
+            writer.write(gson.toJson(employees));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

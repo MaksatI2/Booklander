@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 import kg.attractor.java.data.LibraryData;
 import kg.attractor.java.model.Employee;
 import kg.attractor.java.server.ResponseCodes;
+import kg.attractor.java.utils.CookieUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,8 +24,11 @@ public class EmployeesRequestHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        String sessionId = CookieUtil.getUserIdFromCookie(exchange);
         try {
             List<Employee> employees = dataService.getEmployees();
+            Employee employeeId = dataService.getEmployeeById(sessionId);
+
 
             Map<String, Object> data = new HashMap<>();
             data.put("employees", employees);
@@ -40,6 +44,7 @@ public class EmployeesRequestHandler implements HttpHandler {
                 pastBooksMap.put(employee.getId(), dataService.getPastBookTitlesByEmployee(employee.getId()));
             }
             data.put("pastBooksMap", pastBooksMap);
+            data.put("currentUser", employeeId);
 
             renderTemplate(exchange, "employees.ftlh", data);
         }catch (Exception e) {

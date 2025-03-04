@@ -34,7 +34,7 @@ public class StaticFileHandler implements HttpHandler {
             }
         }catch (Exception e) {
             e.printStackTrace();
-            sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "Error loading employee.");
+            sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "Error loading");
         }
     }
 }
