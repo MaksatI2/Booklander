@@ -30,7 +30,20 @@ public class BookRequestHandler implements HttpHandler {
             return;
         }
 
-        String bookId = query.substring(3);
+        String[] params = query.split("&");
+        String bookId = null;
+        for (String param : params) {
+            if (param.startsWith("id=")) {
+                bookId = param.substring(3);
+                break;
+            }
+        }
+
+        if (bookId == null) {
+            sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "Invalid book ID.");
+            return;
+        }
+
         String sessionId = CookieUtil.getUserIdFromCookie(exchange);
         Employee currentUser = (sessionId != null) ? dataService.getEmployeeById(sessionId) : null;
 
@@ -41,14 +54,14 @@ public class BookRequestHandler implements HttpHandler {
         }
 
         Map<String, Object> data = new HashMap<>();
-        boolean error = currentUser != null && currentUser.hasBorrowError();
-        if (currentUser != null) {
-            currentUser.setBorrowError(false);
+        String borrowLimit = null;
+        if (query.contains("borrowLimit=exceeded")) {
+            borrowLimit = "exceeded";
         }
+        data.put("borrowLimit", borrowLimit);
         data.put("book", book);
         data.put("currentUser", currentUser);
         data.put("borrowerName", book.isIssued() ? dataService.getEmployeeNameById(book.getBorrowerId()) : "Не выдана");
-        data.put("error", error);
 
         renderTemplate(exchange, "book.ftlh", data);
     }

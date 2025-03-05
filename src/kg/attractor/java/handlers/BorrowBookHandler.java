@@ -41,13 +41,11 @@ public class BorrowBookHandler implements HttpHandler {
 
         Employee employee = dataService.getEmployeeById(userId);
         if (employee == null || employee.getBorrowedBooks() == null || employee.getBorrowedBooks().size() >= 2) {
-            employee.setBorrowError(true);
-            exchange.getResponseHeaders().set("Location", "/book/" + bookId);
+            exchange.getResponseHeaders().set("Location", "/book?id=" + bookId + "&borrowLimit=exceeded");
             exchange.sendResponseHeaders(302, -1);
             return;
         }
 
-        employee.setBorrowError(false);
         dataService.borrowBook(userId, bookId);
         exchange.getResponseHeaders().set("Location", "/books");
         exchange.sendResponseHeaders(302, -1);
