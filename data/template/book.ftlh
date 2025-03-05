@@ -37,7 +37,7 @@
             <p><strong>Год издания:</strong> ${book.age}</p>
             <div class="book-description">${(book.description)!"Нет полного описания"}</div>
             <div class="book-status">Статус: ${book.issued?string("Выдана", "Свободна")}</div>
-            <#if error?? && error>
+            <#if borrowLimit?? && borrowLimit == "exceeded">
             <div class="error-message">
                 <p>Вы не можете взять больше двух книг одновременно.</p>
             </div>
