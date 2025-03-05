@@ -36,7 +36,7 @@
                 <div class="book-author">${book.author}</div>
                 <div class="book-status">${(book.issued)?string("Выдана", "Доступна")}</div>
                  <div class="book-description">${book.shortDescription}</div>
-                <a href="/book/${book.id}" class="book-link">Подробнее</a>
+                <a href="/book?id=${book.id}" class="book-link">Подробнее</a>
             </div>
         </div>
     </#list>
