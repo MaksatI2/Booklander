@@ -13,13 +13,11 @@
         <li><a href="/books">Список книг</a></li>
         <li><a href="/employees">Сотрудники</a></li>
         <li><a href="/log">Журнал</a></li>
-        <li><a href="/logout" class="logout">Выйти с профиля</a></li>
     </ul>
 </nav>
 
 <div class="profile-container">
     <h1>Профиль пользователя</h1>
-    <p><strong>ID:</strong> ${employee.id}</p>
     <p><strong>Имя:</strong> ${employee.name}</p>
     <p><strong>Email:</strong> ${employee.email}</p>
 
@@ -64,7 +62,9 @@
             </#if>
         </ul>
 
-    <a href="/logout" class="back-link">Выйти из аккаунта</a>
+<form action="/logout" method="post">
+    <button type="submit" class="back-link">Выйти из аккаунта</button>
+</form>
 </div>
 
 </body>
