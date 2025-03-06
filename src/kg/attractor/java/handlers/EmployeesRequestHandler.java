@@ -25,6 +25,13 @@ public class EmployeesRequestHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String sessionId = CookieUtil.getUserIdFromCookie(exchange);
+        String path = exchange.getRequestURI().getPath();
+
+        if (!"/employees".equals(path)) {
+            sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "404 NOT FOUND");
+            return;
+        }
+
         try {
             List<Employee> employees = dataService.getEmployees();
             Employee employeeId = dataService.getEmployeeById(sessionId);

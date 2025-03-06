@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 import kg.attractor.java.data.LibraryData;
 import kg.attractor.java.model.Book;
 import kg.attractor.java.model.Employee;
+import kg.attractor.java.server.ResponseCodes;
 import kg.attractor.java.template.RenderTemplate;
 import kg.attractor.java.utils.CookieUtil;
 
@@ -12,6 +13,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static kg.attractor.java.template.RenderTemplate.sendErrorResponse;
 
 public class ProfileRequestHandler implements HttpHandler {
     private final LibraryData dataService;
@@ -24,6 +27,12 @@ public class ProfileRequestHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         String sessionId = CookieUtil.getUserIdFromCookie(exchange);
         String userId = CookieUtil.getUserIdFromCookie(exchange);
+        String path = exchange.getRequestURI().getPath();
+
+        if (!"/profile".equals(path)) {
+            sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "404 NOT FOUND");
+            return;
+        }
 
         if (sessionId == null) {
             exchange.getResponseHeaders().set("Location", "/login");

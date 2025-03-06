@@ -25,6 +25,13 @@ public class BooksRequestHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        String path = exchange.getRequestURI().getPath();
+
+        if (!"/books".equals(path)) {
+            sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "404 NOT FOUND");
+            return;
+        }
+
         String sessionId = CookieUtil.getUserIdFromCookie(exchange);
         try {
             List<Book> books = dataService.getBooks();
