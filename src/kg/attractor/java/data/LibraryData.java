@@ -131,13 +131,6 @@ public class LibraryData {
                 .toList();
     }
 
-    public Employee getEmployeeBySession(String sessionId) {
-        return employees.stream()
-                .filter(e -> e.getId().equals(sessionId))
-                .findFirst()
-                .orElse(null);
-    }
-
     public Employee getEmployeeById(String id) {
         return employees.stream()
                 .filter(emp -> emp.getId().equals(id))
@@ -146,6 +139,7 @@ public class LibraryData {
     }
 
     public Employee getEmployeeByEmail(String email) {
+        loadData();
         return employees.stream()
                 .filter(e -> e.getEmail().equalsIgnoreCase(email))
                 .findFirst()

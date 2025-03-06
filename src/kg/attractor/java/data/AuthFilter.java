@@ -3,6 +3,7 @@ package kg.attractor.java.data;
 import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.HttpExchange;
 import kg.attractor.java.model.Employee;
+import kg.attractor.java.utils.CookieUtil;
 
 import java.io.IOException;
 import java.net.HttpCookie;
@@ -29,7 +30,7 @@ public class AuthFilter extends Filter {
 
             if (sessionCookie.isPresent()) {
                 String sessionId = sessionCookie.get();
-                Employee employee = dataService.getEmployeeBySession(sessionId);
+                Employee employee = dataService.getEmployeeById(sessionId);
 
                 if (employee != null) {
                     exchange.setAttribute("authenticatedUser", employee);
@@ -39,6 +40,7 @@ public class AuthFilter extends Filter {
             }
         }
 
+        CookieUtil.clearUserIdCookie(exchange);
         exchange.getResponseHeaders().set("Location", "/login");
         exchange.sendResponseHeaders(302, -1);
     }
