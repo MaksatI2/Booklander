@@ -25,6 +25,10 @@
 </nav>
 
 <div class="book-container">
+
+    <#if successMessage??>
+    <div class="success-message">${successMessage}</div>
+</#if>
     <div class="book-header">
         <h1 class="book-title">${book.title}</h1>
     </div>
@@ -38,7 +42,10 @@
             <div class="book-description">${(book.description)!"Нет полного описания"}</div>
             <div class="book-status">Статус: ${book.issued?string("Выдана", "Свободна")}</div>
             <#if borrowLimit?? && borrowLimit == "exceeded">
-            <div class="error-message">
+            <#if successMessage??>
+            <div class="success-message">${successMessage}</div>
+            </#if>
+            <div class="message">
                 <p>Вы не можете взять больше двух книг одновременно.</p>
             </div>
             </#if>

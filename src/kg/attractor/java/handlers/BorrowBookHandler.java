@@ -49,7 +49,7 @@ public class BorrowBookHandler implements HttpHandler {
         }
 
         dataService.borrowBook(userId, bookId);
-        exchange.getResponseHeaders().set("Location", "/book?id=" + bookId);
+        exchange.getResponseHeaders().set("Location", "/book?id=" + bookId + "&success=borrowed");
         exchange.sendResponseHeaders(302, -1);
     }
 }

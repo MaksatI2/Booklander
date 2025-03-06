@@ -54,10 +54,18 @@ public class BookRequestHandler implements HttpHandler {
         }
 
         Map<String, Object> data = new HashMap<>();
+        String successMessage = null;
         String borrowLimit = null;
         if (query.contains("borrowLimit=exceeded")) {
             borrowLimit = "exceeded";
         }
+        if (query.contains("success=borrowed")) {
+            successMessage = "Вы успешно взяли книгу!";
+        } else if (query.contains("success=returned")) {
+            successMessage = "Вы успешно вернули книгу!";
+        }
+
+        data.put("successMessage", successMessage);
         data.put("borrowLimit", borrowLimit);
         data.put("book", book);
         data.put("currentUser", currentUser);
