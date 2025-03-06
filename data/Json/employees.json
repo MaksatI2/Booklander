@@ -4,8 +4,14 @@
     "name": "Аиша",
     "email": "Aisha@gmail.com",
     "password": "qwe",
-    "borrowedBooks": [],
-    "pastBooks": []
+    "borrowedBooks": [
+      "4",
+      "1"
+    ],
+    "pastBooks": [
+      "1",
+      "3"
+    ]
   },
   {
     "id": "2",
