@@ -41,7 +41,7 @@ public class ReturnBookHandler implements HttpHandler {
         }
 
         dataService.returnBook(userId, bookId);
-        exchange.getResponseHeaders().set("Location", "/books");
+        exchange.getResponseHeaders().set("Location", "/profile");
         exchange.sendResponseHeaders(302, -1);
     }
 }

@@ -24,7 +24,7 @@ public class LibraryServer {
         this.server = HttpServer.create(new InetSocketAddress(port), 0);
 
         server.createContext("/books", new BooksRequestHandler(dataService));
-        server.createContext("/book/", new BookRequestHandler(dataService));
+        server.createContext("/book", new BookRequestHandler(dataService));
         server.createContext("/employees", new EmployeesRequestHandler(dataService));
         server.createContext("/employee", new EmployeeRequestHandler(dataService));
         server.createContext("/register", new RegisterHandler());

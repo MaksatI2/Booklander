@@ -45,7 +45,7 @@
             </#if>
         </div>
     </div>
-    <a href="/employee/${employee.id}" class="employee-link">Инфо о сотруднике</a>
+    <a href="/employee?id=${employee.id}" class="employee-link">Инфо о сотруднике</a>
 </div>
 </#list>
 </div>

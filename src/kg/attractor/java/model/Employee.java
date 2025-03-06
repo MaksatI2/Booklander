@@ -9,7 +9,6 @@ public class Employee {
     private String password;
     private List<String> borrowedBooks;
     private List<String> pastBooks;
-    private boolean borrowError = false;
 
 
     public Employee(String id, String name,String email, String password, List<String> borrowedBooks, List<String> pastBooks) {
@@ -49,12 +48,5 @@ public class Employee {
         this.pastBooks = pastBooks;
     }
 
-    public boolean hasBorrowError() {
-        return borrowError;
-    }
-
-    public void setBorrowError(boolean borrowError) {
-        this.borrowError = borrowError;
-    }
 
 }
