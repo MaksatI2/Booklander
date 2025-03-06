@@ -5,10 +5,7 @@
     "email": "Aisha@gmail.com",
     "password": "qwe",
     "borrowedBooks": [],
-    "pastBooks": [
-      "1",
-      "2"
-    ]
+    "pastBooks": []
   },
   {
     "id": "2",
@@ -23,12 +20,8 @@
     "name": "Куба",
     "email": "Kuba@gmail.com",
     "password": "033",
-    "borrowedBooks": [
-      "2"
-    ],
-    "pastBooks": [
-      "1"
-    ]
+    "borrowedBooks": [],
+    "pastBooks": []
   },
   {
     "id": "4",
