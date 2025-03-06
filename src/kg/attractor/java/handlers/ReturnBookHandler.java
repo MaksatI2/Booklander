@@ -4,6 +4,8 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import kg.attractor.java.data.LibraryData;
 import kg.attractor.java.model.Employee;
+import kg.attractor.java.server.ResponseCodes;
+import kg.attractor.java.template.RenderTemplate;
 import kg.attractor.java.utils.CookieUtil;
 import kg.attractor.java.utils.FormParser;
 
@@ -20,7 +22,7 @@ public class ReturnBookHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if (!exchange.getRequestMethod().equalsIgnoreCase("POST")) {
-            exchange.sendResponseHeaders(405, -1);
+            RenderTemplate.sendErrorResponse(exchange, ResponseCodes.NOT_FOUND, "404 NOT FOUND");
             return;
         }
 
