@@ -186,14 +186,16 @@ public class LibraryData {
 
     public void logBookBorrow(String employeeId, String bookId) {
         String bookTitle = getBookTitleById(bookId);
-        LogEntry entry = new LogEntry(bookTitle, employeeId, LocalDate.now());
+        String employeeName = getEmployeeNameById(employeeId);
+        LogEntry entry = new LogEntry(bookTitle, employeeName, LocalDate.now());
         logs.add(entry);
         saveLogs();
     }
 
     public void logBookReturn(String employeeId, String bookId) {
+        String employeeName = getEmployeeNameById(employeeId);
         for (LogEntry entry : logs) {
-            if (entry.getBookName().equals(getBookTitleById(bookId)) && entry.getEmployeeId().equals(employeeId) && entry.getReturnDate() == null) {
+            if (entry.getBookName().equals(getBookTitleById(bookId))) {
                 entry.setReturnDate(LocalDate.now());
                 saveLogs();
                 return;
