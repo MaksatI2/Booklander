@@ -1,34 +1,3 @@
 [
-  {
-    "bookName": "Евгений Онегин",
-    "employeeName": "Аиша",
-    "borrowDate": "2025-03-06"
-  },
-  {
-    "bookName": "Накопительный эффект",
-    "employeeName": "Аиша",
-    "borrowDate": "2025-03-06",
-    "returnDate": "2025-03-06"
-  },
-  {
-    "bookName": "33 стратегии войны",
-    "employeeName": "Аиша",
-    "borrowDate": "2025-03-06",
-    "returnDate": "2025-03-07"
-  },
-  {
-    "bookName": "33 стратегии войны",
-    "employeeName": "Аиша",
-    "borrowDate": "2025-03-06"
-  },
-  {
-    "bookName": "33 стратегии войны",
-    "employeeName": "Аиша",
-    "borrowDate": "2025-03-06"
-  },
-  {
-    "bookName": "33 стратегии войны",
-    "employeeName": "Аиша",
-    "borrowDate": "2025-03-07"
-  }
+
 ]
