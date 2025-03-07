@@ -25,6 +25,7 @@
 </nav>
 
 <div class="book-container">
+
     <div class="book-header">
         <h1 class="book-title">${book.title}</h1>
     </div>
@@ -38,9 +39,12 @@
             <div class="book-description">${(book.description)!"Нет полного описания"}</div>
             <div class="book-status">Статус: ${book.issued?string("Выдана", "Свободна")}</div>
             <#if borrowLimit?? && borrowLimit == "exceeded">
-            <div class="error-message">
+            <div class="message">
                 <p>Вы не можете взять больше двух книг одновременно.</p>
             </div>
+            </#if>
+            <#if successMessage??>
+                <div class="success-message">${successMessage}</div>
             </#if>
             <form action="${book.issued?then('/return', '/borrow')}" method="post">
                 <input type="hidden" name="bookId" value="${book.id}">

@@ -131,13 +131,6 @@ public class LibraryData {
                 .toList();
     }
 
-    public Employee getEmployeeBySession(String sessionId) {
-        return employees.stream()
-                .filter(e -> e.getId().equals(sessionId))
-                .findFirst()
-                .orElse(null);
-    }
-
     public Employee getEmployeeById(String id) {
         return employees.stream()
                 .filter(emp -> emp.getId().equals(id))
@@ -146,6 +139,7 @@ public class LibraryData {
     }
 
     public Employee getEmployeeByEmail(String email) {
+        loadData();
         return employees.stream()
                 .filter(e -> e.getEmail().equalsIgnoreCase(email))
                 .findFirst()
@@ -192,19 +186,28 @@ public class LibraryData {
 
     public void logBookBorrow(String employeeId, String bookId) {
         String bookTitle = getBookTitleById(bookId);
-        LogEntry entry = new LogEntry(bookTitle, employeeId, LocalDate.now());
+        String employeeName = getEmployeeNameById(employeeId);
+        LogEntry entry = new LogEntry(bookTitle, employeeName, LocalDate.now());
         logs.add(entry);
         saveLogs();
     }
 
     public void logBookReturn(String employeeId, String bookId) {
         for (LogEntry entry : logs) {
-            if (entry.getBookName().equals(getBookTitleById(bookId)) && entry.getEmployeeId().equals(employeeId) && entry.getReturnDate() == null) {
+            if (entry.getBookName().equals(getBookTitleById(bookId)) && entry.getReturnDate() == null) {
                 entry.setReturnDate(LocalDate.now());
                 saveLogs();
                 return;
             }
         }
+
+        String bookTitle = getBookTitleById(bookId);
+        String employeeName = getEmployeeNameById(employeeId);
+        LogEntry newEntry = new LogEntry(bookTitle, employeeName, LocalDate.now());
+        newEntry.setReturnDate(LocalDate.now());
+        logs.add(newEntry);
+
+        saveLogs();
     }
 
     public void borrowBook(String userId, String bookId) {
