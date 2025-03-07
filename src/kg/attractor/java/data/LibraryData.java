@@ -193,14 +193,21 @@ public class LibraryData {
     }
 
     public void logBookReturn(String employeeId, String bookId) {
-        String employeeName = getEmployeeNameById(employeeId);
         for (LogEntry entry : logs) {
-            if (entry.getBookName().equals(getBookTitleById(bookId))) {
+            if (entry.getBookName().equals(getBookTitleById(bookId)) && entry.getReturnDate() == null) {
                 entry.setReturnDate(LocalDate.now());
                 saveLogs();
                 return;
             }
         }
+
+        String bookTitle = getBookTitleById(bookId);
+        String employeeName = getEmployeeNameById(employeeId);
+        LogEntry newEntry = new LogEntry(bookTitle, employeeName, LocalDate.now());
+        newEntry.setReturnDate(LocalDate.now());
+        logs.add(newEntry);
+
+        saveLogs();
     }
 
     public void borrowBook(String userId, String bookId) {
