@@ -46,6 +46,7 @@
             <#if successMessage??>
                 <div class="success-message">${successMessage}</div>
             </#if>
+            <#if currentUser??>
             <form action="${book.issued?then('/return', '/borrow')}" method="post">
                 <input type="hidden" name="bookId" value="${book.id}">
                 <#if book.issued>
@@ -56,6 +57,9 @@
                     <button type="submit" class="borrow-button">Взять книгу</button>
                 </#if>
             </form>
+                    <#else>
+                        <p>Чтобы взять книгу, <a href="/login" class="auth-message">войдите в систему</a>.</p>
+                </#if>
         </div>
     </div>
     <div class="book-footer">
