@@ -49,7 +49,7 @@ public class LibraryServer {
             }
 
             if ("/".equals(requestPath)) {
-                RenderTemplate.renderTemplate(exchange, "root.html", Map.of());
+                RenderTemplate.renderTemplate(exchange, "index.html", Map.of());
                 return;
             }
 
